@@ -21,6 +21,8 @@
 #pragma once
 
 #include "Graphics.h"
+#include "PreClip3DSpace.h"
+#include "PolygonalMesh.h"
 
 class Game
 {
@@ -40,5 +42,7 @@ private:
 	Graphics gfx;
 	/********************************/
 	/*  User Variables              */
+	PreClip3DSpace pc3ds;
+	Cube cube;
 	/********************************/
 };
