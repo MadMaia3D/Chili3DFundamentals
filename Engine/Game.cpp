@@ -20,6 +20,8 @@
 ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
+#include "Matrix3.h"
+#include "ChiliMath.h"
 
 Game::Game( MainWindow& wnd )
 	:
@@ -39,15 +41,39 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	const float dt = ft.Mark();
+	if (wnd.kbd.KeyIsPressed('W')) {
+		thetaX += dt; 
+	}
+	if (wnd.kbd.KeyIsPressed('S')) {
+		thetaX -= dt;
+	}
+	if (wnd.kbd.KeyIsPressed('A')) {
+		thetaY += dt;
+	}
+	if (wnd.kbd.KeyIsPressed('D')) {
+		thetaY -= dt;
+	}
+	if (wnd.kbd.KeyIsPressed('Q')) {
+		thetaZ += dt;
+	}
+	if (wnd.kbd.KeyIsPressed('E')) {
+		thetaZ -= dt;
+	}
+	thetaX = wrap_angle(thetaX);
+	thetaY = wrap_angle(thetaY);
+	thetaZ = wrap_angle(thetaZ);
 }
 
 void Game::ComposeFrame()
 {
-	IndexedLineList lines = cube.GetLines();
 
+	IndexedLineList lines = cube.GetLines();
+	const Mat3 rot = Mat3::RotationX(thetaX) * Mat3::RotationY(thetaY) * Mat3::RotationZ(thetaZ);
 	for (auto& v : lines.vertices) {
+		v *= rot;
+		v += {0.0f, 0.0f, 1.0f};
 		pc3ds.Transform(v);
-		v.z += 1.0f;
 	}
 
 	for (auto i = lines.indices.cbegin(), end = lines.indices.cend(); i != end; std::advance(i,2)) {

@@ -23,6 +23,7 @@
 #include "Graphics.h"
 #include "PreClip3DSpace.h"
 #include "PolygonalMesh.h"
+#include "FrameTimer.h"
 
 class Game
 {
@@ -42,7 +43,11 @@ private:
 	Graphics gfx;
 	/********************************/
 	/*  User Variables              */
+	FrameTimer ft;
 	PreClip3DSpace pc3ds;
 	Cube cube;
+	float thetaX = 0.0f;
+	float thetaY = 0.0f;
+	float thetaZ = 0.0f;
 	/********************************/
 };

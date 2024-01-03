@@ -57,6 +57,33 @@ public:
 					 (T)0.0,(T)0.0, factor };
 		return s;
 	}
+	static Matrix3 RotationZ(T theta) {
+		const T sinTheta = sin(theta);
+		const T cosTheta = cos(theta);
+		return {
+			cosTheta, sinTheta, T(0),
+			-sinTheta, cosTheta, T(0),
+			T(0), T(0), T(1)
+		};
+	}
+	static Matrix3 RotationY(T theta) {
+		const T sinTheta = sin(theta);
+		const T cosTheta = cos(theta);
+		return {
+			cosTheta, T(0), -sinTheta,
+			T(0),	  T(1),	T(0),
+			sinTheta, T(0), cosTheta
+		};
+	}
+	static Matrix3 RotationX(T theta) {
+		const T sinTheta = sin(theta);
+		const T cosTheta = cos(theta);
+		return {
+			T(1), T(0),		T(0),
+			T(0), cosTheta, sinTheta,
+			T(0), -sinTheta, cosTheta
+		};
+	}
 public:
 	// [ row ][ col ]
 	T elements[3][3];
