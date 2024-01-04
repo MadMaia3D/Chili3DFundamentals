@@ -67,25 +67,25 @@ void Game::UpdateModel() {
 	thetaY = wrap_angle(thetaY);
 	thetaZ = wrap_angle(thetaZ);*/
 
-	constexpr float speed = 1.0f;
+	constexpr float speed = 2.0f;
 	if (wnd.mouse.LeftIsPressed()) {
-		v1 = (Vec2)wnd.mouse.GetPos();
+		v0 = (Vec2)wnd.mouse.GetPos();
 	}
-	if (wnd.mouse.RightIsPressed()) {
-		v2 = (Vec2)wnd.mouse.GetPos();
-	}
-	if (wnd.kbd.KeyIsPressed('W')) {
-		v0.y -= speed;
-	}
-	if (wnd.kbd.KeyIsPressed('S')) {
-		v0.y += speed;
-	}
-	if (wnd.kbd.KeyIsPressed('A')) {
-		v0.x -= speed;
-	}
-	if (wnd.kbd.KeyIsPressed('D')) {
-		v0.x += speed;
-	}
+	//if (wnd.mouse.RightIsPressed()) {
+	//	v2 = (Vec2)wnd.mouse.GetPos();
+	//}
+	//if (wnd.kbd.KeyIsPressed('W')) {
+	//	v0.y -= speed;
+	//}
+	//if (wnd.kbd.KeyIsPressed('S')) {
+	//	v0.y += speed;
+	//}
+	//if (wnd.kbd.KeyIsPressed('A')) {
+	//	v0.x -= speed;
+	//}
+	//if (wnd.kbd.KeyIsPressed('D')) {
+	//	v0.x += speed;
+	//}
 }
 
 void Game::ComposeFrame() {
@@ -104,5 +104,8 @@ void Game::ComposeFrame() {
 	/*gfx.DrawTriangle({ 100.0f ,100.0f }, { 300.0f ,100.0f }, { 200.0f , 200.0f }, Colors::White);
 	gfx.DrawTriangle({ 100.0f ,400.0f }, { 300.0f ,400.0f }, { 200.0f , 300.0f }, Colors::White);
 	gfx.DrawTriangle({ 400.0f ,200.0f }, { 300.0f ,300.0f }, { 500.0f , 500.0f }, Colors::White);*/
-	gfx.DrawTriangle(v0, v1, v2, Colors::White);
+	gfx.DrawTriangle(v1, v2, v0, Colors::Cyan);
+	gfx.DrawTriangle(v2, v3, v0, Colors::Yellow);
+	gfx.DrawTriangle(v3, v4, v0, Colors::White);
+	gfx.DrawTriangle(v4, v1, v0, Colors::Blue);
 }
