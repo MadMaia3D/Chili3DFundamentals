@@ -378,6 +378,10 @@ void Graphics::DrawLine(float x1, float y1, float x2, float y2, Color c) {
 	}
 }
 
+void Graphics::DrawTriangle(const Vec3 & v0, const Vec3 & v1, const Vec3 & v2, Color c) {
+	DrawTriangle({ v0.x, v0.y }, { v1.x, v1.y }, { v2.x, v2.y }, c);
+}
+
 void Graphics::DrawTriangle(const Vec2 & v0, const Vec2 & v1, const Vec2 & v2, Color c) {
 	const Vec2* pv0 = &v0;
 	const Vec2* pv1 = &v1;

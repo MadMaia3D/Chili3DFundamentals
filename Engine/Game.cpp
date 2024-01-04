@@ -38,7 +38,7 @@ void Game::Go() {
 }
 
 void Game::UpdateModel() {
-	/*const float dt = ft.Mark();
+	const float dt = ft.Mark();
 	if (wnd.kbd.KeyIsPressed('W')) {
 		thetaX += dt;
 	}
@@ -65,47 +65,32 @@ void Game::UpdateModel() {
 	}
 	thetaX = wrap_angle(thetaX);
 	thetaY = wrap_angle(thetaY);
-	thetaZ = wrap_angle(thetaZ);*/
-
-	constexpr float speed = 2.0f;
-	if (wnd.mouse.LeftIsPressed()) {
-		v0 = (Vec2)wnd.mouse.GetPos();
-	}
-	//if (wnd.mouse.RightIsPressed()) {
-	//	v2 = (Vec2)wnd.mouse.GetPos();
-	//}
-	//if (wnd.kbd.KeyIsPressed('W')) {
-	//	v0.y -= speed;
-	//}
-	//if (wnd.kbd.KeyIsPressed('S')) {
-	//	v0.y += speed;
-	//}
-	//if (wnd.kbd.KeyIsPressed('A')) {
-	//	v0.x -= speed;
-	//}
-	//if (wnd.kbd.KeyIsPressed('D')) {
-	//	v0.x += speed;
-	//}
+	thetaZ = wrap_angle(thetaZ);
 }
 
 void Game::ComposeFrame() {
-	/*IndexedLineList lines = cube.GetLines();
+	constexpr Color colorList[] = {
+		{255,0,0} ,{255,64,0},
+		{255,128,0} ,{255,196,0},
+		{255,255,0}, {196,255,0},
+		{128,255,0}, {64,255,0},
+		{0,255,0}, {0,255,64},
+		{0,255,128}, {0,255,196}
+	};
+
+
+	IndexedTriangleList tris = cube.GetTriangles();
+
 	const Mat3 rot = Mat3::RotationX(thetaX) * Mat3::RotationY(thetaY) * Mat3::RotationZ(thetaZ);
-	for (auto& v : lines.vertices) {
+	for (auto& v : tris.vertices) {
 		v *= rot;
 		v += {0.0f, 0.0f, offsetZ};
 		pc3ds.Transform(v);
 	}
 
-	for (auto i = lines.indices.cbegin(), end = lines.indices.cend(); i != end; std::advance(i, 2)) {
-		gfx.DrawLine(lines.vertices[*i], lines.vertices[*std::next(i)], Colors::White);
-	}*/
+	for (auto i = tris.indices.cbegin(), end = tris.indices.cend(); i != end; std::advance(i, 3)) {
+		const int colorIndex = (int)std::distance(tris.indices.cbegin(), i) / 3;
+		gfx.DrawTriangle(tris.vertices[*i], tris.vertices[*std::next(i)], tris.vertices[*std::next(i, 2)], colorList[colorIndex]);
+	}
 
-	/*gfx.DrawTriangle({ 100.0f ,100.0f }, { 300.0f ,100.0f }, { 200.0f , 200.0f }, Colors::White);
-	gfx.DrawTriangle({ 100.0f ,400.0f }, { 300.0f ,400.0f }, { 200.0f , 300.0f }, Colors::White);
-	gfx.DrawTriangle({ 400.0f ,200.0f }, { 300.0f ,300.0f }, { 500.0f , 500.0f }, Colors::White);*/
-	gfx.DrawTriangle(v1, v2, v0, Colors::Cyan);
-	gfx.DrawTriangle(v2, v3, v0, Colors::Yellow);
-	gfx.DrawTriangle(v3, v4, v0, Colors::White);
-	gfx.DrawTriangle(v4, v1, v0, Colors::Blue);
 }
