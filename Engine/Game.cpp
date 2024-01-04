@@ -60,6 +60,12 @@ void Game::UpdateModel()
 	if (wnd.kbd.KeyIsPressed('E')) {
 		thetaZ -= dt;
 	}
+	if (wnd.kbd.KeyIsPressed('R')) {
+		offsetZ += dt;
+	}
+	if (wnd.kbd.KeyIsPressed('F')) {
+		offsetZ = std::max(1.4f, offsetZ - dt);
+	}
 	thetaX = wrap_angle(thetaX);
 	thetaY = wrap_angle(thetaY);
 	thetaZ = wrap_angle(thetaZ);
@@ -72,7 +78,7 @@ void Game::ComposeFrame()
 	const Mat3 rot = Mat3::RotationX(thetaX) * Mat3::RotationY(thetaY) * Mat3::RotationZ(thetaZ);
 	for (auto& v : lines.vertices) {
 		v *= rot;
-		v += {0.0f, 0.0f, 1.0f};
+		v += {0.0f, 0.0f, offsetZ};
 		pc3ds.Transform(v);
 	}
 
