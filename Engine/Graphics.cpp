@@ -391,3 +391,46 @@ void Graphics::DrawLine( float x1,float y1,float x2,float y2,Color c )
 		}
 	}
 }
+
+void Graphics::DrawTriangle(const Vec2 & v0, const Vec2 & v1, const Vec2 & v2, Color c) {
+	const Vec2* pv0 = &v0;
+	const Vec2* pv1 = &v1;
+	const Vec2* pv2 = &v2;
+
+	if (pv1->y < pv0->y) { std::swap(pv0, pv1); }
+	if (pv2->y < pv1->y) { std::swap(pv1, pv2); }
+	if (pv1->y < pv0->y) { std::swap(pv0, pv1); }
+
+	if (pv0->y == pv1->y) {									// render flat top triangle
+		if (pv1->x < pv0->x) { std::swap(pv0, pv1); }
+		DrawFlatTopTriangle(*pv0, *pv1, *pv2, c);
+	} else if (pv1->y == pv2->y) {							// render flat bottom triangle
+		if (pv1->x < pv2->x) { std::swap(pv1, pv2); }
+		DrawFlatBottomTriangle(*pv0, *pv1, *pv2, c);
+	} else {												// render separated triangles
+		// find alpha for linear interpolation (find the percentage of middle y between bottom y and top y)
+		const float alpha = (pv1->y - pv0->y) / (pv2->y - pv0->y);
+		// split vertex is the linear interpolation between v0 and v1
+		const Vec2 sv = *pv0 + (*pv2 - *pv0) * alpha;
+		if (sv.x < pv1->x) {
+			DrawFlatBottomTriangle(*pv0,*pv1, sv, c);
+			DrawFlatTopTriangle(sv, *pv1, *pv2 ,c);
+		} else {
+			DrawFlatBottomTriangle(*pv0, sv, *pv1, c);
+			DrawFlatTopTriangle(*pv1, sv, *pv2, c);
+		}
+	}
+}
+
+// mind the order of vertices: clockwise from the top
+void Graphics::DrawFlatBottomTriangle(const Vec2 & top_vertex, const Vec2 & right_bottom_vertex, const Vec2 & left_bottom_vertex, Color c) {
+	DrawLine(top_vertex, right_bottom_vertex, Colors::Red);
+	DrawLine(right_bottom_vertex, left_bottom_vertex, Colors::Green);
+	DrawLine(left_bottom_vertex, top_vertex, Colors::Blue);
+}
+// mind the order of vertices: clockwise from the top left
+void Graphics::DrawFlatTopTriangle(const Vec2 & top_left_vertex, const Vec2 & top_right_vertex, const Vec2 & bottom_vertex, Color c) {
+	DrawLine(top_left_vertex, top_right_vertex, Colors::Yellow);
+	DrawLine(top_right_vertex, bottom_vertex, Colors::Cyan);
+	DrawLine(bottom_vertex, top_left_vertex, Colors::Magenta);
+}

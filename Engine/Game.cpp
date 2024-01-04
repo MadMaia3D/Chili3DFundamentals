@@ -23,27 +23,24 @@
 #include "Matrix3.h"
 #include "ChiliMath.h"
 
-Game::Game( MainWindow& wnd )
+Game::Game(MainWindow& wnd)
 	:
-	wnd( wnd ),
-	gfx( wnd ),
-	cube(1.0f)
-{
+	wnd(wnd),
+	gfx(wnd),
+	cube(1.0f) {
 }
 
-void Game::Go()
-{
+void Game::Go() {
 	gfx.BeginFrame();
 	UpdateModel();
 	ComposeFrame();
 	gfx.EndFrame();
 }
 
-void Game::UpdateModel()
-{
-	const float dt = ft.Mark();
+void Game::UpdateModel() {
+	/*const float dt = ft.Mark();
 	if (wnd.kbd.KeyIsPressed('W')) {
-		thetaX += dt; 
+		thetaX += dt;
 	}
 	if (wnd.kbd.KeyIsPressed('S')) {
 		thetaX -= dt;
@@ -68,13 +65,31 @@ void Game::UpdateModel()
 	}
 	thetaX = wrap_angle(thetaX);
 	thetaY = wrap_angle(thetaY);
-	thetaZ = wrap_angle(thetaZ);
+	thetaZ = wrap_angle(thetaZ);*/
+
+	constexpr float speed = 1.0f;
+	if (wnd.mouse.LeftIsPressed()) {
+		v1 = (Vec2)wnd.mouse.GetPos();
+	}
+	if (wnd.mouse.RightIsPressed()) {
+		v2 = (Vec2)wnd.mouse.GetPos();
+	}
+	if (wnd.kbd.KeyIsPressed('W')) {
+		v0.y -= speed;
+	}
+	if (wnd.kbd.KeyIsPressed('S')) {
+		v0.y += speed;
+	}
+	if (wnd.kbd.KeyIsPressed('A')) {
+		v0.x -= speed;
+	}
+	if (wnd.kbd.KeyIsPressed('D')) {
+		v0.x += speed;
+	}
 }
 
-void Game::ComposeFrame()
-{
-
-	IndexedLineList lines = cube.GetLines();
+void Game::ComposeFrame() {
+	/*IndexedLineList lines = cube.GetLines();
 	const Mat3 rot = Mat3::RotationX(thetaX) * Mat3::RotationY(thetaY) * Mat3::RotationZ(thetaZ);
 	for (auto& v : lines.vertices) {
 		v *= rot;
@@ -82,7 +97,12 @@ void Game::ComposeFrame()
 		pc3ds.Transform(v);
 	}
 
-	for (auto i = lines.indices.cbegin(), end = lines.indices.cend(); i != end; std::advance(i,2)) {
+	for (auto i = lines.indices.cbegin(), end = lines.indices.cend(); i != end; std::advance(i, 2)) {
 		gfx.DrawLine(lines.vertices[*i], lines.vertices[*std::next(i)], Colors::White);
-	}
+	}*/
+
+	/*gfx.DrawTriangle({ 100.0f ,100.0f }, { 300.0f ,100.0f }, { 200.0f , 200.0f }, Colors::White);
+	gfx.DrawTriangle({ 100.0f ,400.0f }, { 300.0f ,400.0f }, { 200.0f , 300.0f }, Colors::White);
+	gfx.DrawTriangle({ 400.0f ,200.0f }, { 300.0f ,300.0f }, { 500.0f , 500.0f }, Colors::White);*/
+	gfx.DrawTriangle(v0, v1, v2, Colors::White);
 }

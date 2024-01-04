@@ -50,5 +50,8 @@ private:
 	float thetaY = 0.0f;
 	float thetaZ = 0.0f;
 	float offsetZ = 2.0f;
+	Vec2 v0 = { 300.f, 100.0f };
+	Vec2 v1 = { 500.f, 500.0f };
+	Vec2 v2 = { 100.f, 500.0f };
 	/********************************/
 };
