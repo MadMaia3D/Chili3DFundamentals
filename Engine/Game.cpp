@@ -58,10 +58,10 @@ void Game::UpdateModel() {
 		thetaZ -= dt;
 	}
 	if (wnd.kbd.KeyIsPressed('R')) {
-		offsetZ += dt;
+		offsetZ += 3 * dt;
 	}
 	if (wnd.kbd.KeyIsPressed('F')) {
-		offsetZ = std::max(1.4f, offsetZ - dt);
+		offsetZ = std::max(1.4f, offsetZ - 3 * dt);
 	}
 	thetaX = wrap_angle(thetaX);
 	thetaY = wrap_angle(thetaY);
@@ -70,14 +70,13 @@ void Game::UpdateModel() {
 
 void Game::ComposeFrame() {
 	constexpr Color colorList[] = {
-		{255,0,0} ,{255,64,0},
-		{255,128,0} ,{255,196,0},
-		{255,255,0}, {196,255,0},
-		{128,255,0}, {64,255,0},
-		{0,255,0}, {0,255,64},
-		{0,255,128}, {0,255,196}
+		{255,0,0} ,{255,128,0},
+		{255,255,0} ,{128,255,0},
+		{0,255,0}, {0,255,128},
+		{0,255,255}, {0,128,255},
+		{0,0,255}, {128,0,255},
+		{255,0,255}, {255,0,128}
 	};
-
 
 	IndexedTriangleList tris = cube.GetTriangles();
 
@@ -85,12 +84,25 @@ void Game::ComposeFrame() {
 	for (auto& v : tris.vertices) {
 		v *= rot;
 		v += {0.0f, 0.0f, offsetZ};
+	}
+
+	for (int i = 0; i < tris.cullFlags.size(); i++) {
+		const Vec3& v0 = tris.vertices[tris.indices[i * 3]];
+		const Vec3& v1 = tris.vertices[tris.indices[i * 3 + 1]];
+		const Vec3& v2 = tris.vertices[tris.indices[i * 3 + 2]];
+		tris.cullFlags[i] = (v1 - v0).CrossProduct(v2 - v0) * v0 <= 0.0f;
+	}
+
+	for (auto& v : tris.vertices) {
 		pc3ds.Transform(v);
 	}
 
-	for (auto i = tris.indices.cbegin(), end = tris.indices.cend(); i != end; std::advance(i, 3)) {
-		const int colorIndex = (int)std::distance(tris.indices.cbegin(), i) / 3;
-		gfx.DrawTriangle(tris.vertices[*i], tris.vertices[*std::next(i)], tris.vertices[*std::next(i, 2)], colorList[colorIndex]);
+	for (int i = 0; i < tris.cullFlags.size(); i++) {
+		const Vec3& v0 = tris.vertices[tris.indices[i * 3]];
+		const Vec3& v1 = tris.vertices[tris.indices[i * 3 + 1]];
+		const Vec3& v2 = tris.vertices[tris.indices[i * 3 + 2]];
+		if (tris.cullFlags[i]) {
+			gfx.DrawTriangle(v0, v1, v2, colorList[i]);
+		}
 	}
-
 }
