@@ -92,6 +92,12 @@ public:
 	bool operator!=(const Vector3 &rhs) const {
 		return !(*this == rhs);
 	}
+	Vector3 CrossProduct(const Vector3 &rhs) const {
+		return {
+			y * rhs.z - z * rhs.y,
+			z * rhs.x - x * rhs.z,
+			x * rhs.y - y * rhs.x };
+	}
 public:
 	T x;
 	T y;
