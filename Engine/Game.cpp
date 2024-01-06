@@ -27,7 +27,8 @@ Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
 	gfx(wnd),
-	cube(1.0f) {
+	cube(1.0f)
+{
 }
 
 void Game::Go() {
@@ -40,22 +41,22 @@ void Game::Go() {
 void Game::UpdateModel() {
 	const float dt = ft.Mark();
 	if (wnd.kbd.KeyIsPressed('W')) {
-		thetaX += dt;
-	}
-	if (wnd.kbd.KeyIsPressed('S')) {
 		thetaX -= dt;
 	}
-	if (wnd.kbd.KeyIsPressed('A')) {
-		thetaY += dt;
+	if (wnd.kbd.KeyIsPressed('S')) {
+		thetaX += dt;
 	}
-	if (wnd.kbd.KeyIsPressed('D')) {
+	if (wnd.kbd.KeyIsPressed('A')) {
 		thetaY -= dt;
 	}
+	if (wnd.kbd.KeyIsPressed('D')) {
+		thetaY += dt;
+	}
 	if (wnd.kbd.KeyIsPressed('Q')) {
-		thetaZ += dt;
+		thetaZ -= dt;
 	}
 	if (wnd.kbd.KeyIsPressed('E')) {
-		thetaZ -= dt;
+		thetaZ += dt;
 	}
 	if (wnd.kbd.KeyIsPressed('R')) {
 		offsetZ += 3 * dt;
@@ -66,15 +67,6 @@ void Game::UpdateModel() {
 	thetaX = wrap_angle(thetaX);
 	thetaY = wrap_angle(thetaY);
 	thetaZ = wrap_angle(thetaZ);
-
-	if (wnd.mouse.LeftIsPressed()) {
-		tv1.pos.x = (float)wnd.mouse.GetPosX();
-		tv1.pos.y = (float)wnd.mouse.GetPosY();
-	}
-	if (wnd.mouse.RightIsPressed()) {
-		tv0.pos.x = (float)wnd.mouse.GetPosX();
-		tv0.pos.y = (float)wnd.mouse.GetPosY();
-	}
 }
 
 void Game::ComposeFrame() {
@@ -111,9 +103,7 @@ void Game::ComposeFrame() {
 		const TexVertex& v1 = tris.vertices[tris.indices[i * 3 + 1]];
 		const TexVertex& v2 = tris.vertices[tris.indices[i * 3 + 2]];
 		if (tris.cullFlags[i]) {
-			gfx.DrawTriangle(v0, v1, v2, Colors::Gray);
+			gfx.DrawTriangle(v0, v1, v2, texture);
 		}
 	}
-
-	//gfx.DrawTriangle(tv0, tv1, tv2, Colors::White);
 }

@@ -444,26 +444,7 @@ void Graphics::DrawFlatTopTriangle(const Vec2 & v0, const Vec2 & v1, const Vec2 
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void Graphics::DrawTriangle(const TexVertex & v0, const TexVertex & v1, const TexVertex & v2, Color c) {
+void Graphics::DrawTriangle(const TexVertex & v0, const TexVertex & v1, const TexVertex & v2, const Surface& surf) {
 	const TexVertex* pv0 = &v0;
 	const TexVertex* pv1 = &v1;
 	const TexVertex* pv2 = &v2;
@@ -475,10 +456,10 @@ void Graphics::DrawTriangle(const TexVertex & v0, const TexVertex & v1, const Te
 	// for each case, points should be ordered in clockwise direction, starting from the most top-left point
 	if (pv0->pos.y == pv1->pos.y) {									// render flat top triangle
 		if (pv1->pos.x < pv0->pos.x) { std::swap(pv0, pv1); }
-		DrawFlatTopTriangle(*pv0, *pv1, *pv2, c);
+		DrawFlatTopTriangle(*pv0, *pv1, *pv2, surf);
 	} else if (pv1->pos.y == pv2->pos.y) {							// render flat bottom triangle
 		if (pv1->pos.x < pv2->pos.x) { std::swap(pv1, pv2); }
-		DrawFlatBottomTriangle(*pv0, *pv1, *pv2, c);
+		DrawFlatBottomTriangle(*pv0, *pv1, *pv2, surf);
 	} else {												// render separated triangles
 		// find alpha for linear interpolation (find the percentage of middle y between bottom y and top y)
 		const float alpha = (pv1->pos.y - pv0->pos.y) / (pv2->pos.y - pv0->pos.y);
@@ -486,16 +467,16 @@ void Graphics::DrawTriangle(const TexVertex & v0, const TexVertex & v1, const Te
 		const TexVertex sv = pv0->InterpolateTo(*pv2, alpha);
 
 		if (sv.pos.x < pv1->pos.x) {
-			DrawFlatBottomTriangle(*pv0, *pv1, sv, c);
-			DrawFlatTopTriangle(sv, *pv1, *pv2, c);
+			DrawFlatBottomTriangle(*pv0, *pv1, sv, surf);
+			DrawFlatTopTriangle(sv, *pv1, *pv2, surf);
 		} else {
-			DrawFlatBottomTriangle(*pv0, sv, *pv1, c);
-			DrawFlatTopTriangle(*pv1, sv, *pv2, c);
+			DrawFlatBottomTriangle(*pv0, sv, *pv1, surf);
+			DrawFlatTopTriangle(*pv1, sv, *pv2, surf);
 		}
 	}
 }
 
-void Graphics::DrawFlatBottomTriangle(const TexVertex & v0, const TexVertex & v1, const TexVertex & v2, Color c) {
+void Graphics::DrawFlatBottomTriangle(const TexVertex & v0, const TexVertex & v1, const TexVertex & v2, const Surface& surf) {
 	// use linear equation (y = mx +b) but the version of x in function of y (x = wy + p),
 	// where w is the run over the rise (inverse of m) and p is the x-intercept (the original b is the y-intercept)
 	// "y in function of x" would cause problems with vertical lines since 'm' in that case would result in division by zero
@@ -521,6 +502,12 @@ void Graphics::DrawFlatBottomTriangle(const TexVertex & v0, const TexVertex & v1
 	tcEdgeL += tcEdgeStepL * ((float)yStart - v0.pos.y + 0.5f);
 	tcEdgeR += tcEdgeStepR * ((float)yStart - v0.pos.y + 0.5f);
 
+	// get texture info
+	const int surfaceWidth = surf.GetWidth();
+	const int surfaceHeight = surf.GetHeight();
+	const int sufaceMaxWidth = surfaceWidth - 1;
+	const int surfaceMaxHeight = surfaceHeight - 1;
+
 	for (int y = yStart; y < yEnd; y++,
 		 tcEdgeL += tcEdgeStepL, tcEdgeR += tcEdgeStepR) {
 		// add 0.5 to y value because we are making calculations based on the pixel center
@@ -535,15 +522,14 @@ void Graphics::DrawFlatBottomTriangle(const TexVertex & v0, const TexVertex & v1
 		Vec2 tcScanPos = tcEdgeL + tcScanStep * ((float)xStart - px0 + 0.5f);
 
 		for (int x = xStart; x < xEnd; x++, tcScanPos += tcScanStep) {
-			const unsigned char r = (unsigned char)(0.0f, tcScanPos.x * 255);
-			const unsigned char g = (unsigned char)(0.0f, tcScanPos.y * 255);
-			const Color uvColor = { r, g , 0 };
-			PutPixel(x, y, uvColor);
+			const int surfaceX = std::min(int(tcScanPos.x * surfaceWidth), sufaceMaxWidth);
+			const int surfaceY = std::min(int(tcScanPos.y * surfaceHeight), surfaceMaxHeight);
+			PutPixel(x, y, surf.GetPixel(surfaceX, surfaceY));
 		}
 	}
 }
 
-void Graphics::DrawFlatTopTriangle(const TexVertex & v0, const TexVertex & v1, const TexVertex & v2, Color c) {
+void Graphics::DrawFlatTopTriangle(const TexVertex & v0, const TexVertex & v1, const TexVertex & v2, const Surface& surf) {
 	// use linear equation (y = mx +b) but the version of x in function of y (x = wy + p),
 	// where w is the run over the rise (inverse of m) and p is the x-intercept (the original b is the y-intercept)
 	// "y in function of x" would cause problems with vertical lines since 'm' in that case would result in division by zero
@@ -582,11 +568,16 @@ void Graphics::DrawFlatTopTriangle(const TexVertex & v0, const TexVertex & v1, c
 		const Vec2 tcScanStep = (tcEdgeR - tcEdgeL) / (px1 - px0);
 		Vec2 tcScanPos = tcEdgeL + tcScanStep * ((float)xStart - px0 + 0.5f);
 
+		// get texture info
+		const int surfaceWidth = surf.GetWidth();
+		const int surfaceHeight = surf.GetHeight();
+		const int sufaceMaxWidth = surfaceWidth - 1;
+		const int surfaceMaxHeight = surfaceHeight - 1;
+
 		for (int x = xStart; x < xEnd; x++, tcScanPos += tcScanStep) {
-			const unsigned char r = (unsigned char)(0.0f, tcScanPos.x * 255);
-			const unsigned char g = (unsigned char)(0.0f, tcScanPos.y * 255);
-			const Color uvColor = { r, g , 0 };
-			PutPixel(x, y, uvColor);
+			const int surfaceX = std::min(int(tcScanPos.x * surfaceWidth), sufaceMaxWidth);
+			const int surfaceY = std::min(int(tcScanPos.y * surfaceHeight), surfaceMaxHeight);
+			PutPixel(x, y, surf.GetPixel(surfaceX, surfaceY));
 		}
 	}
 }

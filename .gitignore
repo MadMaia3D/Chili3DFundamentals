@@ -250,3 +250,8 @@ ModelManifest.xml
 
 # Precompiled shader bytecode headers
 *.shh
+
+################
+# Maia Ignores #
+################
+Engine/Textures/

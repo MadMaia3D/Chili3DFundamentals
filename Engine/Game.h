@@ -50,10 +50,6 @@ private:
 	float thetaY = 0.0f;
 	float thetaZ = 0.0f;
 	float offsetZ = 2.0f;
-	TexVertex tv0 = { {100.0f,100.0f,100.0f},{0.0f, 0.0f} };
-	TexVertex tv1 = { {500.0f,250.0f,100.0f},{1.0f, 0.0f} };
-	TexVertex tv2 = { {250.0f,500.0f,100.0f},{1.0f, 1.0f} };
-	std::vector<TexVertex> texVs = { tv0, tv1, tv2 };
-	IndexedTriangleList<TexVertex> triangle{ texVs,{0,1,2} };
+	Surface texture = Surface::FromFile(L"Textures\\far-cry.jpg");
 	/********************************/
 };
