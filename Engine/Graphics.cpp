@@ -26,6 +26,7 @@
 #include <string>
 #include <array>
 #include <functional>
+#include <Windows.h>
 
 // Ignore the intellisense error "cannot open source file" for .shh files.
 // They will be created during the build sequence before the preprocessor runs.
@@ -82,8 +83,7 @@ Graphics::Graphics(HWNDKey& key)
 		&pSwapChain,
 		&pDevice,
 		&featureLevelsSupported,
-		&pImmediateContext)))
-	{
+		&pImmediateContext))) {
 		throw CHILI_GFX_EXCEPTION(hr, L"Creating device and swap chain");
 	}
 
@@ -92,8 +92,7 @@ Graphics::Graphics(HWNDKey& key)
 	if (FAILED(hr = pSwapChain->GetBuffer(
 		0,
 		__uuidof(ID3D11Texture2D),
-		(LPVOID*)&pBackBuffer)))
-	{
+		(LPVOID*)&pBackBuffer))) {
 		throw CHILI_GFX_EXCEPTION(hr, L"Getting back buffer");
 	}
 
@@ -101,8 +100,7 @@ Graphics::Graphics(HWNDKey& key)
 	if (FAILED(hr = pDevice->CreateRenderTargetView(
 		pBackBuffer.Get(),
 		nullptr,
-		&pRenderTargetView)))
-	{
+		&pRenderTargetView))) {
 		throw CHILI_GFX_EXCEPTION(hr, L"Creating render target view on backbuffer");
 	}
 
@@ -137,8 +135,7 @@ Graphics::Graphics(HWNDKey& key)
 	sysTexDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	sysTexDesc.MiscFlags = 0;
 	// create the texture
-	if (FAILED(hr = pDevice->CreateTexture2D(&sysTexDesc, nullptr, &pSysBufferTexture)))
-	{
+	if (FAILED(hr = pDevice->CreateTexture2D(&sysTexDesc, nullptr, &pSysBufferTexture))) {
 		throw CHILI_GFX_EXCEPTION(hr, L"Creating sysbuffer texture");
 	}
 
@@ -148,8 +145,7 @@ Graphics::Graphics(HWNDKey& key)
 	srvDesc.Texture2D.MipLevels = 1;
 	// create the resource view on the texture
 	if (FAILED(hr = pDevice->CreateShaderResourceView(pSysBufferTexture.Get(),
-													  &srvDesc, &pSysBufferTextureView)))
-	{
+													  &srvDesc, &pSysBufferTextureView))) {
 		throw CHILI_GFX_EXCEPTION(hr, L"Creating view on sysBuffer texture");
 	}
 
@@ -161,8 +157,7 @@ Graphics::Graphics(HWNDKey& key)
 		FramebufferShaders::FramebufferPSBytecode,
 		sizeof(FramebufferShaders::FramebufferPSBytecode),
 		nullptr,
-		&pPixelShader)))
-	{
+		&pPixelShader))) {
 		throw CHILI_GFX_EXCEPTION(hr, L"Creating pixel shader");
 	}
 
@@ -174,8 +169,7 @@ Graphics::Graphics(HWNDKey& key)
 		FramebufferShaders::FramebufferVSBytecode,
 		sizeof(FramebufferShaders::FramebufferVSBytecode),
 		nullptr,
-		&pVertexShader)))
-	{
+		&pVertexShader))) {
 		throw CHILI_GFX_EXCEPTION(hr, L"Creating vertex shader");
 	}
 
@@ -198,8 +192,7 @@ Graphics::Graphics(HWNDKey& key)
 	bd.CPUAccessFlags = 0u;
 	D3D11_SUBRESOURCE_DATA initData = {};
 	initData.pSysMem = vertices;
-	if (FAILED(hr = pDevice->CreateBuffer(&bd, &initData, &pVertexBuffer)))
-	{
+	if (FAILED(hr = pDevice->CreateBuffer(&bd, &initData, &pVertexBuffer))) {
 		throw CHILI_GFX_EXCEPTION(hr, L"Creating vertex buffer");
 	}
 
@@ -216,8 +209,7 @@ Graphics::Graphics(HWNDKey& key)
 	if (FAILED(hr = pDevice->CreateInputLayout(ied, 2,
 											   FramebufferShaders::FramebufferVSBytecode,
 											   sizeof(FramebufferShaders::FramebufferVSBytecode),
-											   &pInputLayout)))
-	{
+											   &pInputLayout))) {
 		throw CHILI_GFX_EXCEPTION(hr, L"Creating input layout");
 	}
 
@@ -232,8 +224,7 @@ Graphics::Graphics(HWNDKey& key)
 	sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
 	sampDesc.MinLOD = 0;
 	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
-	if (FAILED(hr = pDevice->CreateSamplerState(&sampDesc, &pSamplerState)))
-	{
+	if (FAILED(hr = pDevice->CreateSamplerState(&sampDesc, &pSamplerState))) {
 		throw CHILI_GFX_EXCEPTION(hr, L"Creating sampler state");
 	}
 }
@@ -248,8 +239,7 @@ void Graphics::EndFrame() {
 
 	// lock and map the adapter memory for copying over the sysbuffer
 	if (FAILED(hr = pImmediateContext->Map(pSysBufferTexture.Get(), 0u,
-										   D3D11_MAP_WRITE_DISCARD, 0u, &mappedSysBufferTexture)))
-	{
+										   D3D11_MAP_WRITE_DISCARD, 0u, &mappedSysBufferTexture))) {
 		throw CHILI_GFX_EXCEPTION(hr, L"Mapping sysbuffer");
 	}
 	// perform the copy line-by-line
@@ -271,8 +261,7 @@ void Graphics::EndFrame() {
 	pImmediateContext->Draw(6u, 0u);
 
 	// flip back/front buffers
-	if (FAILED(hr = pSwapChain->Present(1u, 0u)))
-	{
+	if (FAILED(hr = pSwapChain->Present(1u, 0u))) {
 		throw CHILI_GFX_EXCEPTION(hr, L"Presenting back buffer");
 	}
 }
@@ -332,13 +321,10 @@ void Graphics::DrawLine(float x1, float y1, float x2, float y2, Color c) {
 	const float dx = x2 - x1;
 	const float dy = y2 - y1;
 
-	if (dy == 0.0f && dx == 0.0f)
-	{
+	if (dy == 0.0f && dx == 0.0f) {
 		PutPixel(int(x1), int(y1), c);
-	} else if (abs(dy) > abs(dx))
-	{
-		if (dy < 0.0f)
-		{
+	} else if (abs(dy) > abs(dx)) {
+		if (dy < 0.0f) {
 			std::swap(x1, x2);
 			std::swap(y1, y2);
 		}
@@ -346,19 +332,15 @@ void Graphics::DrawLine(float x1, float y1, float x2, float y2, Color c) {
 		const float m = dx / dy;
 		float y = y1;
 		int lastIntY;
-		for (float x = x1; y < y2; y += 1.0f, x += m)
-		{
+		for (float x = x1; y < y2; y += 1.0f, x += m) {
 			lastIntY = int(y);
 			PutPixel(int(x), lastIntY, c);
 		}
-		if (int(y2) > lastIntY)
-		{
+		if (int(y2) > lastIntY) {
 			PutPixel(int(x2), int(y2), c);
 		}
-	} else
-	{
-		if (dx < 0.0f)
-		{
+	} else {
+		if (dx < 0.0f) {
 			std::swap(x1, x2);
 			std::swap(y1, y2);
 		}
@@ -366,21 +348,16 @@ void Graphics::DrawLine(float x1, float y1, float x2, float y2, Color c) {
 		const float m = dy / dx;
 		float x = x1;
 		int lastIntX;
-		for (float y = y1; x < x2; x += 1.0f, y += m)
-		{
+		for (float y = y1; x < x2; x += 1.0f, y += m) {
 			lastIntX = int(x);
 			PutPixel(lastIntX, int(y), c);
 		}
-		if (int(x2) > lastIntX)
-		{
+		if (int(x2) > lastIntX) {
 			PutPixel(int(x2), int(y2), c);
 		}
 	}
 }
 
-void Graphics::DrawTriangle(const Vec3 & v0, const Vec3 & v1, const Vec3 & v2, Color c) {
-	DrawTriangle({ v0.x, v0.y }, { v1.x, v1.y }, { v2.x, v2.y }, c);
-}
 
 void Graphics::DrawTriangle(const Vec2 & v0, const Vec2 & v1, const Vec2 & v2, Color c) {
 	const Vec2* pv0 = &v0;
@@ -463,6 +440,153 @@ void Graphics::DrawFlatTopTriangle(const Vec2 & v0, const Vec2 & v1, const Vec2 
 		const int endX = (int)std::ceil(rightX + 0.5f);
 		for (int x = startX; x < endX; x++) {
 			PutPixel(x, y, c);
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void Graphics::DrawTriangle(const TexVertex & v0, const TexVertex & v1, const TexVertex & v2, Color c) {
+	const TexVertex* pv0 = &v0;
+	const TexVertex* pv1 = &v1;
+	const TexVertex* pv2 = &v2;
+
+	if (pv1->pos.y < pv0->pos.y) { std::swap(pv0, pv1); }
+	if (pv2->pos.y < pv1->pos.y) { std::swap(pv1, pv2); }
+	if (pv1->pos.y < pv0->pos.y) { std::swap(pv0, pv1); }
+
+	// for each case, points should be ordered in clockwise direction, starting from the most top-left point
+	if (pv0->pos.y == pv1->pos.y) {									// render flat top triangle
+		if (pv1->pos.x < pv0->pos.x) { std::swap(pv0, pv1); }
+		DrawFlatTopTriangle(*pv0, *pv1, *pv2, c);
+	} else if (pv1->pos.y == pv2->pos.y) {							// render flat bottom triangle
+		if (pv1->pos.x < pv2->pos.x) { std::swap(pv1, pv2); }
+		DrawFlatBottomTriangle(*pv0, *pv1, *pv2, c);
+	} else {												// render separated triangles
+		// find alpha for linear interpolation (find the percentage of middle y between bottom y and top y)
+		const float alpha = (pv1->pos.y - pv0->pos.y) / (pv2->pos.y - pv0->pos.y);
+		// split vertex is the linear interpolation between v0 and v1
+		const TexVertex sv = pv0->InterpolateTo(*pv2, alpha);
+
+		if (sv.pos.x < pv1->pos.x) {
+			DrawFlatBottomTriangle(*pv0, *pv1, sv, c);
+			DrawFlatTopTriangle(sv, *pv1, *pv2, c);
+		} else {
+			DrawFlatBottomTriangle(*pv0, sv, *pv1, c);
+			DrawFlatTopTriangle(*pv1, sv, *pv2, c);
+		}
+	}
+}
+
+void Graphics::DrawFlatBottomTriangle(const TexVertex & v0, const TexVertex & v1, const TexVertex & v2, Color c) {
+	// use linear equation (y = mx +b) but the version of x in function of y (x = wy + p),
+	// where w is the run over the rise (inverse of m) and p is the x-intercept (the original b is the y-intercept)
+	// "y in function of x" would cause problems with vertical lines since 'm' in that case would result in division by zero
+	// so we use "x in function of x" version cause the lines that we won't need to calculate the bottom horizontal edge of the triangle
+
+	// run over rise for left and right sides
+	const float lw = (v2.pos.x - v0.pos.x) / (v2.pos.y - v0.pos.y);
+	const float rw = (v1.pos.x - v0.pos.x) / (v1.pos.y - v0.pos.y);
+
+	// following Microsoft DirectX10 rasterization "top-edge" rule
+	const int yStart = (int)std::ceil(v0.pos.y - 0.5f);
+	const int yEnd = (int)std::ceil(v2.pos.y - 0.5f);
+
+	// init text coord edges
+	Vec2 tcEdgeL = v0.tc;
+	Vec2 tcEdgeR = v0.tc;
+
+	// calculate tex coord edge unit steps
+	const Vec2 tcEdgeStepL = (v2.tc - v0.tc) / (v2.pos.y - v0.pos.y);
+	const Vec2 tcEdgeStepR = (v1.tc - v0.tc) / (v1.pos.y - v0.pos.y);
+
+	// do tex coord pre step
+	tcEdgeL += tcEdgeStepL * ((float)yStart - v0.pos.y + 0.5f);
+	tcEdgeR += tcEdgeStepR * ((float)yStart - v0.pos.y + 0.5f);
+
+	for (int y = yStart; y < yEnd; y++,
+		 tcEdgeL += tcEdgeStepL, tcEdgeR += tcEdgeStepR) {
+		// add 0.5 to y value because we are making calculations based on the pixel center
+		const float px0 = lw * (y + 0.5f - v0.pos.y) + v0.pos.x;
+		const float px1 = rw * (y + 0.5f - v0.pos.y) + v0.pos.x;
+		// following Microsoft DirectX10 rasterization "left-edge" rule
+		const int xStart = (int)std::ceil(px0 - 0.5f);
+		const int xEnd = (int)std::ceil(px1 - 0.5f);
+
+		// calculate text coord scanline unit step
+		const Vec2 tcScanStep = (tcEdgeR - tcEdgeL) / (px1 - px0);
+		Vec2 tcScanPos = tcEdgeL + tcScanStep * ((float)xStart - px0 + 0.5f);
+
+		for (int x = xStart; x < xEnd; x++, tcScanPos += tcScanStep) {
+			const unsigned char r = (unsigned char)(0.0f, tcScanPos.x * 255);
+			const unsigned char g = (unsigned char)(0.0f, tcScanPos.y * 255);
+			const Color uvColor = { r, g , 0 };
+			PutPixel(x, y, uvColor);
+		}
+	}
+}
+
+void Graphics::DrawFlatTopTriangle(const TexVertex & v0, const TexVertex & v1, const TexVertex & v2, Color c) {
+	// use linear equation (y = mx +b) but the version of x in function of y (x = wy + p),
+	// where w is the run over the rise (inverse of m) and p is the x-intercept (the original b is the y-intercept)
+	// "y in function of x" would cause problems with vertical lines since 'm' in that case would result in division by zero
+	// so we use "x in function of x" version cause the lines that we won't need to calculate the top horizontal edge of the triangle
+
+	// run over rise for left and right sides
+	const float lw = (v2.pos.x - v0.pos.x) / (v2.pos.y - v0.pos.y);
+	const float rw = (v2.pos.x - v1.pos.x) / (v2.pos.y - v1.pos.y);
+
+	// following Microsoft DirectX10 rasterization "top-edge" rule
+	const int yStart = (int)std::ceil(v0.pos.y - 0.5f);
+	const int yEnd = (int)std::ceil(v2.pos.y - 0.5f);
+
+	// init text coord edges
+	Vec2 tcEdgeL = v0.tc;
+	Vec2 tcEdgeR = v1.tc;
+
+	// calculate tex coord edge unit steps
+	const Vec2 tcEdgeStepL = (v2.tc - v0.tc) / (v2.pos.y - v0.pos.y);
+	const Vec2 tcEdgeStepR = (v2.tc - v1.tc) / (v2.pos.y - v1.pos.y);
+
+	// do tex coord pre step
+	tcEdgeL += tcEdgeStepL * (float(yStart) - v0.pos.y + 0.5f);
+	tcEdgeR += tcEdgeStepR * (float(yStart) - v1.pos.y + 0.5f);
+
+	for (int y = yStart; y < yEnd; y++,
+		 tcEdgeL += tcEdgeStepL, tcEdgeR += tcEdgeStepR) {
+		// add 0.5 to y value because we are making calculations based on the pixel center
+		const float px0 = lw * (y + 0.5f - v0.pos.y) + v0.pos.x;
+		const float px1 = rw * (y + 0.5f - v1.pos.y) + v1.pos.x;
+		// following Microsoft DirectX10 rasterization "left-edge" rule
+		const int xStart = (int)std::ceil(px0 - 0.5f);
+		const int xEnd = (int)std::ceil(px1 - 0.5f);
+
+		// calculate text coord scanline unit step
+		const Vec2 tcScanStep = (tcEdgeR - tcEdgeL) / (px1 - px0);
+		Vec2 tcScanPos = tcEdgeL + tcScanStep * ((float)xStart - px0 + 0.5f);
+
+		for (int x = xStart; x < xEnd; x++, tcScanPos += tcScanStep) {
+			const unsigned char r = (unsigned char)(0.0f, tcScanPos.x * 255);
+			const unsigned char g = (unsigned char)(0.0f, tcScanPos.y * 255);
+			const Color uvColor = { r, g , 0 };
+			PutPixel(x, y, uvColor);
 		}
 	}
 }

@@ -27,6 +27,7 @@
 #include "Colors.h"
 #include "Vec2.h"
 #include "Vector3.h"
+#include "TexVertex.h"
 
 #define CHILI_GFX_EXCEPTION( hr,note ) Graphics::Exception( hr,note,_CRT_WIDE(__FILE__),__LINE__ )
 
@@ -68,12 +69,15 @@ public:
 	{
 		sysBuffer.PutPixel( x,y,c );
 	}
-	void DrawTriangle(const Vec3 & v0, const Vec3 & v1, const Vec3 & v2, Color c);
 	void DrawTriangle(const Vec2 & v0, const Vec2 & v1, const Vec2 & v2, Color c);
+	void DrawTriangle(const TexVertex & v0, const TexVertex & v1, const TexVertex & v2, Color c);
 	~Graphics();
 private:
 	void DrawFlatBottomTriangle(const Vec2 & v0, const Vec2 & v1, const Vec2 & v2, Color c);
 	void DrawFlatTopTriangle(const Vec2 & v0, const Vec2 & v1, const Vec2 & v2, Color c);
+
+	void DrawFlatBottomTriangle(const TexVertex & v0, const TexVertex & v1, const TexVertex & v2, Color c);
+	void DrawFlatTopTriangle(const TexVertex & v0, const TexVertex & v1, const TexVertex & v2, Color c);
 private:
 	GDIPlusManager										gdipMan;
 	Microsoft::WRL::ComPtr<IDXGISwapChain>				pSwapChain;

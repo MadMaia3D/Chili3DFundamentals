@@ -1,14 +1,13 @@
 #pragma once
-
+#include "Vec2.h"
 template <typename T>
-class Vector3
+class Vector3 : public _Vec2<T>
 {
 public:
 	Vector3() {}
 	Vector3(T x, T y, T z)
 		:
-		x(x),
-		y(y),
+		_Vec2(x, y),
 		z(z)
 	{}
 	Vector3(const Vector3& vec)
@@ -98,9 +97,10 @@ public:
 			z * rhs.x - x * rhs.z,
 			x * rhs.y - y * rhs.x };
 	}
+	Vector3 InterpolateTo(const Vector3 destination, float alpha) const {
+		return *this + (destination - *this) * alpha;
+	}
 public:
-	T x;
-	T y;
 	T z;
 };
 

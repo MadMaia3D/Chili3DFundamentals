@@ -124,6 +124,9 @@ public:
 	{
 		return !(*this == rhs);
 	}
+	_Vec2 InterpolateTo(const _Vec2 destination, float alpha) const {
+		return *this + (destination - *this) * alpha;
+	}
 public:
 	T x;
 	T y;

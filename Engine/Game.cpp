@@ -66,6 +66,15 @@ void Game::UpdateModel() {
 	thetaX = wrap_angle(thetaX);
 	thetaY = wrap_angle(thetaY);
 	thetaZ = wrap_angle(thetaZ);
+
+	if (wnd.mouse.LeftIsPressed()) {
+		tv1.pos.x = (float)wnd.mouse.GetPosX();
+		tv1.pos.y = (float)wnd.mouse.GetPosY();
+	}
+	if (wnd.mouse.RightIsPressed()) {
+		tv0.pos.x = (float)wnd.mouse.GetPosX();
+		tv0.pos.y = (float)wnd.mouse.GetPosY();
+	}
 }
 
 void Game::ComposeFrame() {
@@ -78,31 +87,33 @@ void Game::ComposeFrame() {
 		{255,0,255}, {255,0,128}
 	};
 
-	IndexedTriangleList tris = cube.GetTriangles();
+	IndexedTriangleList<TexVertex> tris = cube.GetTrianglesTex();
 
 	const Mat3 rot = Mat3::RotationX(thetaX) * Mat3::RotationY(thetaY) * Mat3::RotationZ(thetaZ);
 	for (auto& v : tris.vertices) {
-		v *= rot;
-		v += {0.0f, 0.0f, offsetZ};
+		v.pos *= rot;
+		v.pos += {0.0f, 0.0f, offsetZ};
 	}
 
 	for (int i = 0; i < tris.cullFlags.size(); i++) {
-		const Vec3& v0 = tris.vertices[tris.indices[i * 3]];
-		const Vec3& v1 = tris.vertices[tris.indices[i * 3 + 1]];
-		const Vec3& v2 = tris.vertices[tris.indices[i * 3 + 2]];
+		const Vec3& v0 = tris.vertices[tris.indices[i * 3]].pos;
+		const Vec3& v1 = tris.vertices[tris.indices[i * 3 + 1]].pos;
+		const Vec3& v2 = tris.vertices[tris.indices[i * 3 + 2]].pos;
 		tris.cullFlags[i] = (v1 - v0).CrossProduct(v2 - v0) * v0 <= 0.0f;
 	}
 
 	for (auto& v : tris.vertices) {
-		pc3ds.Transform(v);
+		pc3ds.Transform(v.pos);
 	}
 
 	for (int i = 0; i < tris.cullFlags.size(); i++) {
-		const Vec3& v0 = tris.vertices[tris.indices[i * 3]];
-		const Vec3& v1 = tris.vertices[tris.indices[i * 3 + 1]];
-		const Vec3& v2 = tris.vertices[tris.indices[i * 3 + 2]];
+		const TexVertex& v0 = tris.vertices[tris.indices[i * 3]];
+		const TexVertex& v1 = tris.vertices[tris.indices[i * 3 + 1]];
+		const TexVertex& v2 = tris.vertices[tris.indices[i * 3 + 2]];
 		if (tris.cullFlags[i]) {
-			gfx.DrawTriangle(v0, v1, v2, colorList[i]);
+			gfx.DrawTriangle(v0, v1, v2, Colors::Gray);
 		}
 	}
+
+	//gfx.DrawTriangle(tv0, tv1, tv2, Colors::White);
 }
