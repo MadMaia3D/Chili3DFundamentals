@@ -9,9 +9,6 @@ public:
 		pos(position),
 		tc(textureCoordinate)
 	{}
-	TexVertex InterpolateTo(const TexVertex& destination, float alpha) const {
-		return { pos.InterpolateTo(destination.pos, alpha), tc.InterpolateTo(destination.tc, alpha) };
-	}
 	Vec3 pos;
 	Vec2 tc;
 };

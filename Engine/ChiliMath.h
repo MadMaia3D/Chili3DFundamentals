@@ -36,3 +36,8 @@ inline T wrap_angle(T theta) {
 	const T modded = std::fmod(theta, (T)2.0 * (T)PI_D);
 	return (modded > (T)PI_D) ? modded - (T)2.0 * (T)PI_D : modded;
 }
+
+template <typename T>
+inline T Interpolate(T a, T b, float alpha) {
+	return a + (b - a) * alpha;
+}

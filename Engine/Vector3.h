@@ -97,9 +97,6 @@ public:
 			z * rhs.x - x * rhs.z,
 			x * rhs.y - y * rhs.x };
 	}
-	Vector3 InterpolateTo(const Vector3 destination, float alpha) const {
-		return *this + (destination - *this) * alpha;
-	}
 public:
 	T z;
 };
