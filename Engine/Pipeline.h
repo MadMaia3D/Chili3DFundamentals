@@ -4,8 +4,56 @@
 #include "Triangle.h"
 #include "PerspectiveScreenTransformer.h"
 #include "Matrix3.h"
+#include "ChiliMath.h"
 
 class Pipeline {
+public:
+	class Vertex {
+	public:
+		Vertex(const Vec3& position, const Vec2& textureCoordinate)
+			:
+			pos(position),
+			tc(textureCoordinate) {
+		}
+		Vertex(const TexVertex& texV)
+			:
+			pos(texV.pos), tc(texV.tc) {
+		}
+		Vertex& operator+=(const Vertex& rhs) {
+			pos += rhs.pos;
+			tc += rhs.tc;
+			return *this;
+		}
+		Vertex operator+(const Vertex& rhs) {
+			return Vertex(*this) += rhs;
+		}
+		Vertex& operator-=(const Vertex& rhs) {
+			pos -= rhs.pos;
+			tc -= rhs.tc;
+			return *this;
+		}
+		Vertex operator-(const Vertex& rhs) {
+			return Vertex(*this) -= rhs;
+		}
+		Vertex& operator*=(float rhs) {
+			pos *= rhs;
+			tc *= rhs;
+			return *this;
+		}
+		Vertex operator*(float rhs) {
+			return Vertex(*this) *= rhs;
+		}
+		Vertex& operator/=(float rhs) {
+			pos /= rhs;
+			tc /= rhs;
+			return *this;
+		}
+		Vertex operator/(float rhs) {
+			return Vertex(*this) /= rhs;
+		}
+		Vec3 pos{};
+		Vec2 tc{};
+	};
 public:
 	Pipeline(Graphics& gfx)
 		:
@@ -23,7 +71,7 @@ public:
 private:
 	void VertexTransform(const IndexedTriangleList<TexVertex>& IndexedTriangle) {
 		// create a transformed copy of the vertices
-		std::vector<TexVertex> worldSpaceVertices;
+		std::vector<Vertex> worldSpaceVertices;
 		worldSpaceVertices.reserve(IndexedTriangle.vertices.size());
 		for (const auto &v : IndexedTriangle.vertices) {
 			worldSpaceVertices.emplace_back(v.pos * rotation + translation, v.tc);
@@ -32,20 +80,20 @@ private:
 		AssembleTriangles(worldSpaceVertices, IndexedTriangle.indices);
 	}
 
-	void AssembleTriangles(const std::vector<TexVertex>& vertices, const std::vector<size_t>& indices) {
+	void AssembleTriangles(const std::vector<Vertex>& vertices, const std::vector<size_t>& indices) {
 		// loop through indices getting 3 at each time and creating copies of the vertices
-		for (size_t i = 0; i < indices.size()/3 ; i++) {
-			const TexVertex& v0 = vertices[indices[i * 3]];
-			const TexVertex& v1 = vertices[indices[i * 3 + 1]];
-			const TexVertex& v2 = vertices[indices[i * 3 + 2]];
+		for (size_t i = 0; i < indices.size() / 3; i++) {
+			const Vertex& v0 = vertices[indices[i * 3]];
+			const Vertex& v1 = vertices[indices[i * 3 + 1]];
+			const Vertex& v2 = vertices[indices[i * 3 + 2]];
 			// test each vertice trio for back face culling
 			if ((v1.pos - v0.pos).CrossProduct(v2.pos - v0.pos) * v0.pos <= 0) {
-					PerspectiveScreenTransform(v0, v1, v2);
+				PerspectiveScreenTransform(v0, v1, v2);
 			};
 		}
 	}
 
-	void PerspectiveScreenTransform(TexVertex v0, TexVertex v1, TexVertex v2) {
+	void PerspectiveScreenTransform(Vertex v0, Vertex v1, Vertex v2) {
 		// apply perspective transform to the triangle
 		// apply screen transform to the triangle
 		pst.Transform(v0.pos);
@@ -54,14 +102,14 @@ private:
 		RasterizeTriangle(v0, v1, v2);
 	}
 
-	void RasterizeTriangle(TexVertex& v0, TexVertex& v1, TexVertex& v2) {
+	void RasterizeTriangle(Vertex& v0, Vertex& v1, Vertex& v2) {
 		DrawTriangle(v0, v1, v2, *texture);
 	}
 
-	void DrawTriangle(const TexVertex & v0, const TexVertex & v1, const TexVertex & v2, const Surface& surf) {
-		const TexVertex* pv0 = &v0;
-		const TexVertex* pv1 = &v1;
-		const TexVertex* pv2 = &v2;
+	void DrawTriangle(const Vertex & v0, const Vertex & v1, const Vertex & v2, const Surface& surf) {
+		const Vertex* pv0 = &v0;
+		const Vertex* pv1 = &v1;
+		const Vertex* pv2 = &v2;
 
 		if (pv1->pos.y < pv0->pos.y) { std::swap(pv0, pv1); }
 		if (pv2->pos.y < pv1->pos.y) { std::swap(pv1, pv2); }
@@ -78,7 +126,7 @@ private:
 			// find alpha for linear interpolation (find the percentage of middle y between bottom y and top y)
 			const float alpha = (pv1->pos.y - pv0->pos.y) / (pv2->pos.y - pv0->pos.y);
 			// split vertex is the linear interpolation between v0 and v1
-			const TexVertex sv = pv0->InterpolateTo(*pv2, alpha);
+			const Vertex sv = Interpolate(*pv0, *pv2, alpha);
 
 			if (sv.pos.x < pv1->pos.x) {
 				DrawFlatBottomTriangle(*pv0, *pv1, sv, surf);
@@ -91,15 +139,16 @@ private:
 	}
 
 	// mind the order of vertices: clockwise from the top
-	void DrawFlatBottomTriangle(const TexVertex & v0, const TexVertex & v1, const TexVertex & v2, const Surface& surf) {
+	void DrawFlatBottomTriangle(const Vertex & v0, const Vertex & v1, const Vertex & v2, const Surface& surf) {
 		// use linear equation (y = mx +b) but the version of x in function of y (x = wy + p),
 		// where w is the run over the rise (inverse of m) and p is the x-intercept (the original b is the y-intercept)
 		// "y in function of x" would cause problems with vertical lines since 'm' in that case would result in division by zero
 		// so we use "x in function of x" version cause the lines that we won't need to calculate the bottom horizontal edge of the triangle
 
 		// run over rise for left and right sides
-		const float lw = (v2.pos.x - v0.pos.x) / (v2.pos.y - v0.pos.y);
-		const float rw = (v1.pos.x - v0.pos.x) / (v1.pos.y - v0.pos.y);
+		const float deltaY = (v2.pos.y - v0.pos.y);
+		const float lw = (v2.pos.x - v0.pos.x) / deltaY;
+		const float rw = (v1.pos.x - v0.pos.x) / deltaY;
 
 		// following Microsoft DirectX10 rasterization "top-edge" rule
 		const int yStart = (int)std::ceil(v0.pos.y - 0.5f);
@@ -145,15 +194,16 @@ private:
 	}
 
 	// mind the order of vertices: clockwise from the top left
-	void DrawFlatTopTriangle(const TexVertex & v0, const TexVertex & v1, const TexVertex & v2, const Surface& surf) {
+	void DrawFlatTopTriangle(const Vertex & v0, const Vertex & v1, const Vertex & v2, const Surface& surf) {
 		// use linear equation (y = mx +b) but the version of x in function of y (x = wy + p),
 		// where w is the run over the rise (inverse of m) and p is the x-intercept (the original b is the y-intercept)
 		// "y in function of x" would cause problems with vertical lines since 'm' in that case would result in division by zero
 		// so we use "x in function of x" version cause the lines that we won't need to calculate the top horizontal edge of the triangle
 
 		// run over rise for left and right sides
-		const float lw = (v2.pos.x - v0.pos.x) / (v2.pos.y - v0.pos.y);
-		const float rw = (v2.pos.x - v1.pos.x) / (v2.pos.y - v1.pos.y);
+		const float deltaY = (v2.pos.y - v0.pos.y);
+		const float lw = (v2.pos.x - v0.pos.x) / deltaY;
+		const float rw = (v2.pos.x - v1.pos.x) / deltaY;
 
 		// following Microsoft DirectX10 rasterization "top-edge" rule
 		const int yStart = (int)std::ceil(v0.pos.y - 0.5f);
