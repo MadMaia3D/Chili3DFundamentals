@@ -27,7 +27,8 @@ Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
 	gfx(wnd),
-	cube(1.0f)
+	cube(1.0f),
+	pipeLine(gfx)
 {
 }
 
@@ -70,40 +71,13 @@ void Game::UpdateModel() {
 }
 
 void Game::ComposeFrame() {
-	constexpr Color colorList[] = {
-		{255,0,0} ,{255,128,0},
-		{255,255,0} ,{128,255,0},
-		{0,255,0}, {0,255,128},
-		{0,255,255}, {0,128,255},
-		{0,0,255}, {128,0,255},
-		{255,0,255}, {255,0,128}
-	};
+	const Mat3 rot = Mat3::RotationX(thetaX) * Mat3::RotationY(thetaY) * Mat3::RotationZ(thetaZ);
+
+	pipeLine.BindRotation(rot);
+	pipeLine.BindTranslation({ 0.0f, 0.0f, offsetZ });
+	pipeLine.BindTexture(&texture);
 
 	IndexedTriangleList<TexVertex> tris = cube.GetTrianglesTex();
 
-	const Mat3 rot = Mat3::RotationX(thetaX) * Mat3::RotationY(thetaY) * Mat3::RotationZ(thetaZ);
-	for (auto& v : tris.vertices) {
-		v.pos *= rot;
-		v.pos += {0.0f, 0.0f, offsetZ};
-	}
-
-	for (int i = 0; i < tris.cullFlags.size(); i++) {
-		const Vec3& v0 = tris.vertices[tris.indices[i * 3]].pos;
-		const Vec3& v1 = tris.vertices[tris.indices[i * 3 + 1]].pos;
-		const Vec3& v2 = tris.vertices[tris.indices[i * 3 + 2]].pos;
-		tris.cullFlags[i] = (v1 - v0).CrossProduct(v2 - v0) * v0 <= 0.0f;
-	}
-
-	for (auto& v : tris.vertices) {
-		pc3ds.Transform(v.pos);
-	}
-
-	for (int i = 0; i < tris.cullFlags.size(); i++) {
-		const TexVertex& v0 = tris.vertices[tris.indices[i * 3]];
-		const TexVertex& v1 = tris.vertices[tris.indices[i * 3 + 1]];
-		const TexVertex& v2 = tris.vertices[tris.indices[i * 3 + 2]];
-		if (tris.cullFlags[i]) {
-			gfx.DrawTriangle(v0, v1, v2, texture);
-		}
-	}
+	pipeLine.Draw(tris);
 }

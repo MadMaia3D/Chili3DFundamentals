@@ -2,9 +2,9 @@
 #include "Graphics.h"
 #include "Vector3.h"
 
-class PreClip3DSpace {
+class PerspectiveScreenTransformer {
 public:
-	PreClip3DSpace()
+	PerspectiveScreenTransformer()
 		:
 		xFactor(Graphics::ScreenWidth / 2),
 		yFactor(Graphics::ScreenHeight / 2)

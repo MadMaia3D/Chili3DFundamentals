@@ -152,11 +152,13 @@
     <ClInclude Include="Mat2.h" />
     <ClInclude Include="Matrix3.h" />
     <ClInclude Include="Mouse.h" />
-    <ClInclude Include="PreClip3DSpace.h" />
+    <ClInclude Include="Pipeline.h" />
+    <ClInclude Include="PerspectiveScreenTransformer.h" />
     <ClInclude Include="PolygonalMesh.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Surface.h" />
+    <ClInclude Include="Triangle.h" />
     <ClInclude Include="TexVertex.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vector3.h" />

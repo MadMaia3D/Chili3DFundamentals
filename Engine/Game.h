@@ -21,9 +21,9 @@
 #pragma once
 
 #include "Graphics.h"
-#include "PreClip3DSpace.h"
 #include "PolygonalMesh.h"
 #include "FrameTimer.h"
+#include "Pipeline.h"
 
 class Game
 {
@@ -44,12 +44,12 @@ private:
 	/********************************/
 	/*  User Variables              */
 	FrameTimer ft;
-	PreClip3DSpace pc3ds;
 	Cube cube;
 	float thetaX = 0.0f;
 	float thetaY = 0.0f;
 	float thetaZ = 0.0f;
 	float offsetZ = 2.0f;
 	Surface texture = Surface::FromFile(L"Textures\\far-cry.jpg");
+	Pipeline pipeLine;
 	/********************************/
 };
