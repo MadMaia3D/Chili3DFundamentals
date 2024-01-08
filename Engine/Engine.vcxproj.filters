@@ -16,6 +16,9 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{8b6c92a8-f65d-451e-80e3-d65773602b92}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\PixelShaders">
+      <UniqueIdentifier>{9b9e8764-c661-4cfc-bc5b-5f944ef1bef5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChiliWin.h">
@@ -95,6 +98,9 @@
     </ClInclude>
     <ClInclude Include="PerspectiveScreenTransformer.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FlatTextureEffect.h">
+      <Filter>Header Files\PixelShaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

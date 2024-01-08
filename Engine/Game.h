@@ -24,6 +24,7 @@
 #include "PolygonalMesh.h"
 #include "FrameTimer.h"
 #include "Pipeline.h"
+#include "FlatTextureEffect.h"
 
 class Game
 {
@@ -50,6 +51,6 @@ private:
 	float thetaZ = 0.0f;
 	float offsetZ = 2.0f;
 	Surface texture = Surface::FromFile(L"Textures\\far-cry.jpg");
-	Pipeline pipeLine;
+	Pipeline<PixelShaders::FlatTextureEffect> pipeline;
 	/********************************/
 };

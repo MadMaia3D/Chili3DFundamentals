@@ -5,55 +5,12 @@
 #include "PerspectiveScreenTransformer.h"
 #include "Matrix3.h"
 #include "ChiliMath.h"
+#include "FlatTextureEffect.h"
 
+template <class PixelShaderEffect>
 class Pipeline {
 public:
-	class Vertex {
-	public:
-		Vertex(const Vec3& position, const Vec2& textureCoordinate)
-			:
-			pos(position),
-			tc(textureCoordinate) {
-		}
-		Vertex(const TexVertex& texV)
-			:
-			pos(texV.pos), tc(texV.tc) {
-		}
-		Vertex& operator+=(const Vertex& rhs) {
-			pos += rhs.pos;
-			tc += rhs.tc;
-			return *this;
-		}
-		Vertex operator+(const Vertex& rhs) const {
-			return Vertex(*this) += rhs;
-		}
-		Vertex& operator-=(const Vertex& rhs) {
-			pos -= rhs.pos;
-			tc -= rhs.tc;
-			return *this;
-		}
-		Vertex operator-(const Vertex& rhs) const {
-			return Vertex(*this) -= rhs;
-		}
-		Vertex& operator*=(float rhs) {
-			pos *= rhs;
-			tc *= rhs;
-			return *this;
-		}
-		Vertex operator*(float rhs) const {
-			return Vertex(*this) *= rhs;
-		}
-		Vertex& operator/=(float rhs) {
-			pos /= rhs;
-			tc /= rhs;
-			return *this;
-		}
-		Vertex operator/(float rhs) const {
-			return Vertex(*this) /= rhs;
-		}
-		Vec3 pos{};
-		Vec2 tc{};
-	};
+	typedef typename PixelShaderEffect::Vertex Vertex;
 public:
 	Pipeline(Graphics& gfx)
 		:
@@ -66,7 +23,6 @@ public:
 
 	void BindRotation(const Mat3& rotation_in) { rotation = rotation_in; }
 	void BindTranslation(const Vec3& translation_in) { translation = translation_in; }
-	void BindTexture(const Surface* surf) { texture = surf; };
 
 private:
 	void VertexTransform(const IndexedTriangleList<TexVertex>& IndexedTriangle) {
@@ -173,12 +129,6 @@ private:
 		leftEdgeInterpolant += leftEdgestep * (float(yStart) - leftEdgeInterpolant.pos.y + 0.5f);
 		rightEdgeInterpolant += rightEdgestep * (float(yStart) - rightEdgeInterpolant.pos.y + 0.5f);
 
-		// get texture info
-		const int surfaceWidth = texture->GetWidth();
-		const int surfaceHeight = texture->GetHeight();
-		const int sufaceMaxWidth = surfaceWidth - 1;
-		const int surfaceMaxHeight = surfaceHeight - 1;
-
 		for (int y = yStart; y < yEnd; y++,
 			 leftEdgeInterpolant += leftEdgestep, rightEdgeInterpolant += rightEdgestep) {
 			// following Microsoft DirectX10 rasterization "left-edge" rule
@@ -191,17 +141,15 @@ private:
 			Vertex scanPosDelta = (rightEdgeInterpolant - leftEdgeInterpolant) / deltaX;
 
 			for (int x = xStart; x < xEnd; x++, scanPos += scanPosDelta) {
-				const int surfaceX = std::min(int(scanPos.tc.x * surfaceWidth), sufaceMaxWidth);
-				const int surfaceY = std::min(int(scanPos.tc.y * surfaceHeight), surfaceMaxHeight);
-				gfx.PutPixel(x, y, texture->GetPixel(surfaceX, surfaceY));
+				gfx.PutPixel(x, y, pixelShader(scanPos));
 			}
 		}
 	}
-
+public:
+	PixelShaderEffect pixelShader;
 private:
 	Graphics& gfx;
 	PerspectiveScreenTransformer pst;
 	Mat3 rotation;
 	Vec3 translation;
-	const Surface* texture;
 };

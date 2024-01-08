@@ -28,8 +28,9 @@ Game::Game(MainWindow& wnd)
 	wnd(wnd),
 	gfx(wnd),
 	cube(1.0f),
-	pipeLine(gfx)
+	pipeline(gfx)
 {
+	pipeline.pixelShader.BindTexture(L"Textures\\Bricks.jpeg");
 }
 
 void Game::Go() {
@@ -73,11 +74,10 @@ void Game::UpdateModel() {
 void Game::ComposeFrame() {
 	const Mat3 rot = Mat3::RotationX(thetaX) * Mat3::RotationY(thetaY) * Mat3::RotationZ(thetaZ);
 
-	pipeLine.BindRotation(rot);
-	pipeLine.BindTranslation({ 0.0f, 0.0f, offsetZ });
-	pipeLine.BindTexture(&texture);
+	pipeline.BindRotation(rot);
+	pipeline.BindTranslation({ 0.0f, 0.0f, offsetZ });
 
 	IndexedTriangleList<TexVertex> tris = cube.GetTrianglesTex();
 
-	pipeLine.Draw(tris);
+	pipeline.Draw(tris);
 }
