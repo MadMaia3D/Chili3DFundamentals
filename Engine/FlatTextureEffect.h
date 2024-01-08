@@ -55,21 +55,19 @@ namespace PixelShaders {
 		};
 	public:
 		Color operator()(const Vertex& scanPosInfo) {
-			const int textureLookupX = int(scanPosInfo.tc.x * sufaceMaxWidth);
-			const int textureLookupY = int(scanPosInfo.tc.y * surfaceMaxHeight);
+			const int textureLookupX = std::clamp(0, int(scanPosInfo.tc.x * sufaceMaxWidth), sufaceMaxWidth) ;
+			const int textureLookupY = std::clamp(0, int(scanPosInfo.tc.y * surfaceMaxHeight), surfaceMaxHeight);
 			return texture->GetPixel(textureLookupX, textureLookupY);
 		}
 		void BindTexture(const std::wstring filePath) {
 			texture = std::make_unique<Surface>(Surface::FromFile(filePath));
-			surfaceWidth = texture->GetWidth();
-			surfaceHeight = texture->GetHeight();
+			const int surfaceWidth = texture->GetWidth();
+			const int surfaceHeight = texture->GetHeight();
 			sufaceMaxWidth = surfaceWidth - 1;
 			surfaceMaxHeight = surfaceHeight - 1;
 		}
 	private:
 		std::unique_ptr<Surface> texture;
-		int surfaceWidth;
-		int surfaceHeight;
 		int sufaceMaxWidth;
 		int surfaceMaxHeight;
 	};
