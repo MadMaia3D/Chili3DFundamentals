@@ -27,10 +27,17 @@ Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
 	gfx(wnd),
-	cube(1.0f),
-	pipeline(gfx)
+	pipeline(gfx),
+	itList(Cube::GetColorVertexCube<Vertex>(1.0f))
 {
-	pipeline.pixelShader.BindTexture(L"Textures\\Bricks.jpeg");
+	//itList.vertices[0].color = (Vec3)Colors::Red;
+	//itList.vertices[1].color = (Vec3)Colors::Green;
+	//itList.vertices[2].color = (Vec3)Colors::Blue;
+	//itList.vertices[3].color = (Vec3)Colors::Cyan;
+	//itList.vertices[4].color = (Vec3)Colors::White;
+	//itList.vertices[5].color = (Vec3)Colors::Magenta;
+	//itList.vertices[6].color = (Vec3)Colors::Blue;
+	//itList.vertices[7].color = (Vec3)Colors::Black;
 }
 
 void Game::Go() {
@@ -76,8 +83,5 @@ void Game::ComposeFrame() {
 
 	pipeline.BindRotation(rot);
 	pipeline.BindTranslation({ 0.0f, 0.0f, offsetZ });
-
-	IndexedTriangleList<TexVertex> tris = cube.GetTrianglesTex();
-
-	pipeline.Draw(tris);
+	pipeline.Draw(itList);
 }

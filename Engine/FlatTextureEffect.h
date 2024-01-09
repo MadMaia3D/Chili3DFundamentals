@@ -3,72 +3,72 @@
 #include "Surface.h"
 #include <algorithm>
 
-namespace PixelShaders {
-	class FlatTextureEffect {
+class FlatTextureEffect {
+public:
+	class Vertex {
 	public:
-		class Vertex {
-		public:
-			Vertex(const Vec3& position, const Vec2& textureCoordinate)
-				:
-				pos(position),
-				tc(textureCoordinate) {
-			}
-			Vertex(const Vec3& position, const Vertex& v)
-				:
-				pos(position),
-				tc(v.tc) {
-			}
-			Vertex& operator+=(const Vertex& rhs) {
-				pos += rhs.pos;
-				tc += rhs.tc;
-				return *this;
-			}
-			Vertex operator+(const Vertex& rhs) const {
-				return Vertex(*this) += rhs;
-			}
-			Vertex& operator-=(const Vertex& rhs) {
-				pos -= rhs.pos;
-				tc -= rhs.tc;
-				return *this;
-			}
-			Vertex operator-(const Vertex& rhs) const {
-				return Vertex(*this) -= rhs;
-			}
-			Vertex& operator*=(float rhs) {
-				pos *= rhs;
-				tc *= rhs;
-				return *this;
-			}
-			Vertex operator*(float rhs) const {
-				return Vertex(*this) *= rhs;
-			}
-			Vertex& operator/=(float rhs) {
-				pos /= rhs;
-				tc /= rhs;
-				return *this;
-			}
-			Vertex operator/(float rhs) const {
-				return Vertex(*this) /= rhs;
-			}
-			Vec3 pos{};
-			Vec2 tc{};
-		};
-	public:
-		Color operator()(const Vertex& scanPosInfo) {
-			const int textureLookupX = std::clamp(0, int(scanPosInfo.tc.x * sufaceMaxWidth), sufaceMaxWidth) ;
-			const int textureLookupY = std::clamp(0, int(scanPosInfo.tc.y * surfaceMaxHeight), surfaceMaxHeight);
-			return texture->GetPixel(textureLookupX, textureLookupY);
+		Vertex(const Vec3& position, const Vec2& textureCoordinate)
+			:
+			pos(position),
+			tc(textureCoordinate) {
 		}
-		void BindTexture(const std::wstring filePath) {
-			texture = std::make_unique<Surface>(Surface::FromFile(filePath));
-			const int surfaceWidth = texture->GetWidth();
-			const int surfaceHeight = texture->GetHeight();
-			sufaceMaxWidth = surfaceWidth - 1;
-			surfaceMaxHeight = surfaceHeight - 1;
+		Vertex(const Vec3& position, const Vertex& v)
+			:
+			pos(position),
+			tc(v.tc) {
 		}
-	private:
-		std::unique_ptr<Surface> texture;
-		int sufaceMaxWidth;
-		int surfaceMaxHeight;
+		Vertex& operator+=(const Vertex& rhs) {
+			pos += rhs.pos;
+			tc += rhs.tc;
+			return *this;
+		}
+		Vertex operator+(const Vertex& rhs) const {
+			return Vertex(*this) += rhs;
+		}
+		Vertex& operator-=(const Vertex& rhs) {
+			pos -= rhs.pos;
+			tc -= rhs.tc;
+			return *this;
+		}
+		Vertex operator-(const Vertex& rhs) const {
+			return Vertex(*this) -= rhs;
+		}
+		Vertex& operator*=(float rhs) {
+			pos *= rhs;
+			tc *= rhs;
+			return *this;
+		}
+		Vertex operator*(float rhs) const {
+			return Vertex(*this) *= rhs;
+		}
+		Vertex& operator/=(float rhs) {
+			pos /= rhs;
+			tc /= rhs;
+			return *this;
+		}
+		Vertex operator/(float rhs) const {
+			return Vertex(*this) /= rhs;
+		}
+		Vec3 pos{};
+		Vec2 tc{};
 	};
-}
+public:
+	Color operator()(const Vertex& scanPosInfo) {
+		assert(texture.get() != nullptr);
+		const int textureLookupX = std::clamp(0, int(scanPosInfo.tc.x * sufaceMaxWidth), sufaceMaxWidth);
+		const int textureLookupY = std::clamp(0, int(scanPosInfo.tc.y * surfaceMaxHeight), surfaceMaxHeight);
+		return texture->GetPixel(textureLookupX, textureLookupY);
+	}
+	void BindTexture(const std::wstring filePath) {
+		texture = std::make_unique<Surface>(Surface::FromFile(filePath));
+		const int surfaceWidth = texture->GetWidth();
+		const int surfaceHeight = texture->GetHeight();
+		sufaceMaxWidth = surfaceWidth - 1;
+		surfaceMaxHeight = surfaceHeight - 1;
+	}
+private:
+	std::unique_ptr<Surface> texture;
+	int sufaceMaxWidth;
+	int surfaceMaxHeight;
+};
+

@@ -17,20 +17,20 @@ public:
 		gfx(gfx) {
 	}
 
-	void Draw(const IndexedTriangleList<TexVertex>& vertices) {
-		VertexTransform(vertices);
-	}
-
 	void BindRotation(const Mat3& rotation_in) { rotation = rotation_in; }
 	void BindTranslation(const Vec3& translation_in) { translation = translation_in; }
 
+	void Draw(const IndexedTriangleList<Vertex>& vertices) {
+		VertexTransform(vertices);
+	}
+
 private:
-	void VertexTransform(const IndexedTriangleList<TexVertex>& IndexedTriangle) {
+	void VertexTransform(const IndexedTriangleList<Vertex>& IndexedTriangle) {
 		// create a transformed copy of the vertices
 		std::vector<Vertex> worldSpaceVertices;
 		worldSpaceVertices.reserve(IndexedTriangle.vertices.size());
 		for (const auto &v : IndexedTriangle.vertices) {
-			worldSpaceVertices.emplace_back(v.pos * rotation + translation, v.tc);
+			worldSpaceVertices.emplace_back(v.pos * rotation + translation, v);
 		}
 		// call assemble triangle with the transformed vertices and its indexes
 		AssembleTriangles(worldSpaceVertices, IndexedTriangle.indices);

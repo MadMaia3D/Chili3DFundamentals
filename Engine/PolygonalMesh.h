@@ -1,41 +1,23 @@
 #pragma once
-#include "IndexedLineList.h"
 #include "IndexedTriangleList.h"
-#include "TexVertex.h"
 
 class Cube {
 public:
-	Cube(float size) {
+	template<typename V>
+	static IndexedTriangleList<V> GetTexturedCube(float size) {
 		float half = size / 2.0f;
-		vertices.reserve(8);
-		vertices.emplace_back(-half, half, -half);		// index 0
-		textureCoordinates.emplace_back(0.0f, 0.0f);
-		vertices.emplace_back(half, half, -half);		// index 1
-		textureCoordinates.emplace_back(1.0f, 0.0f);
-		vertices.emplace_back(half, -half, -half);		// index 2
-		textureCoordinates.emplace_back(1.0f, 1.0f);
-		vertices.emplace_back(-half, -half, -half);		// index 3
-		textureCoordinates.emplace_back(0.0f, 1.0f);
-		vertices.emplace_back(-half, half, half);		// index 4
-		textureCoordinates.emplace_back(1.0f, 0.0f);
-		vertices.emplace_back(half, half, half);		// index 5
-		textureCoordinates.emplace_back(0.0f, 0.0f);
-		vertices.emplace_back(half, -half, half);		// index 6
-		textureCoordinates.emplace_back(0.0f, 1.0f);
-		vertices.emplace_back(-half, -half, half);		// index 7
-		textureCoordinates.emplace_back(1.0f, 1.0f);
-	}
-	IndexedLineList GetLines() const {
+		std::vector<V> verts;
+		verts.reserve(8);
+		verts.emplace_back(Vec3{ -half, half, -half }, Vec2{ 0.0f, 0.0f });
+		verts.emplace_back(Vec3{ half, half, -half }, Vec2{ 1.0f, 0.0f });
+		verts.emplace_back(Vec3{ half, -half, -half }, Vec2{ 1.0f, 1.0f });
+		verts.emplace_back(Vec3{ -half, -half, -half }, Vec2{ 0.0f, 1.0f });
+		verts.emplace_back(Vec3{ -half, half, half }, Vec2{ 1.0f, 0.0f });
+		verts.emplace_back(Vec3{ half, half, half }, Vec2{ 0.0f, 0.0f });
+		verts.emplace_back(Vec3{ half, -half, half }, Vec2{ 0.0f, 1.0f });
+		verts.emplace_back(Vec3{ -half, -half, half }, Vec2{ 1.0f, 1.0f });
 		return {
-			vertices, {
-			0,1, 1,2, 2,3, 3,0,
-			4,5, 5,6, 6,7 ,7,4,
-			0,4, 1,5, 2,6, 3,7} };
-	}
-
-	IndexedTriangleList<Vec3> GetTriangles() const {
-		return {
-			vertices, {
+			std::move(verts), {
 			0,1,2,	2,3,0,
 			1,5,2,	5,6,2,
 			4,6,5,	4,7,6,
@@ -45,15 +27,21 @@ public:
 		} };
 	}
 
-	IndexedTriangleList<TexVertex> GetTrianglesTex() const {
-		std::vector<TexVertex> tverts;
-		tverts.reserve(vertices.size());
-
-		for (size_t i = 0; i < vertices.size(); i++) {
-			tverts.emplace_back(vertices[i], textureCoordinates[i]);
-		}
+	template<typename V>
+	static IndexedTriangleList<V> GetColorVertexCube(float size) {
+		float half = size / 2.0f;
+		std::vector<V> verts;
+		verts.reserve(8);
+		verts.emplace_back(Vec3{ -half, half, -half });
+		verts.emplace_back(Vec3{ half, half, -half });
+		verts.emplace_back(Vec3{ half, -half, -half });
+		verts.emplace_back(Vec3{ -half, -half, -half });
+		verts.emplace_back(Vec3{ -half, half, half });
+		verts.emplace_back(Vec3{ half, half, half });
+		verts.emplace_back(Vec3{ half, -half, half });
+		verts.emplace_back(Vec3{ -half, -half, half });
 		return {
-			std::move(tverts), {
+			std::move(verts), {
 			0,1,2,	2,3,0,
 			1,5,2,	5,6,2,
 			4,6,5,	4,7,6,
@@ -62,8 +50,4 @@ public:
 			2,7,3,	2,6,7
 		} };
 	}
-
-private:
-	std::vector<Vec3> vertices;
-	std::vector<Vec2> textureCoordinates;
 };

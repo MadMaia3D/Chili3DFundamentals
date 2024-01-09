@@ -102,6 +102,12 @@
     <ClInclude Include="FlatTextureEffect.h">
       <Filter>Header Files\PixelShaders</Filter>
     </ClInclude>
+    <ClInclude Include="VertexColorEffect.h">
+      <Filter>Header Files\PixelShaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ZDepthEffect.h">
+      <Filter>Header Files\PixelShaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">

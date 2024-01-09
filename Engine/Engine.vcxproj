@@ -165,6 +165,8 @@
     <ClInclude Include="TexVertex.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vector3.h" />
+    <ClInclude Include="VertexColorEffect.h" />
+    <ClInclude Include="ZDepthEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp" />

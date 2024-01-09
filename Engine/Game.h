@@ -24,7 +24,7 @@
 #include "PolygonalMesh.h"
 #include "FrameTimer.h"
 #include "Pipeline.h"
-#include "FlatTextureEffect.h"
+#include "ZDepthEffect.h"
 
 class Game
 {
@@ -45,12 +45,13 @@ private:
 	/********************************/
 	/*  User Variables              */
 	FrameTimer ft;
-	Cube cube;
 	float thetaX = 0.0f;
 	float thetaY = 0.0f;
 	float thetaZ = 0.0f;
 	float offsetZ = 2.0f;
-	Surface texture = Surface::FromFile(L"Textures\\far-cry.jpg");
-	Pipeline<PixelShaders::FlatTextureEffect> pipeline;
+	typedef Pipeline<ZDepthEffect> Pipeline;
+	typedef Pipeline::Vertex Vertex;
+	Pipeline pipeline;
+	IndexedTriangleList<Vertex> itList;
 	/********************************/
 };
