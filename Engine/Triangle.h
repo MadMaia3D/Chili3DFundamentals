@@ -1,9 +1,9 @@
 #pragma once
 
-template <class V>
+template <class Vertex>
 class Triangle {
 public:
-	V v0;
-	V v1;
-	V v2;
+	Vertex v0;
+	Vertex v1;
+	Vertex v2;
 };

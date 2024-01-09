@@ -3,10 +3,10 @@
 
 class Cube {
 public:
-	template<typename V>
-	static IndexedTriangleList<V> GetTexturedCube(float size) {
+	template<typename Vertex>
+	static IndexedTriangleList<Vertex> GetTexturedCube(float size) {
 		float half = size / 2.0f;
-		std::vector<V> verts;
+		std::vector<Vertex> verts;
 		verts.reserve(8);
 		verts.emplace_back(Vec3{ -half, half, -half }, Vec2{ 0.0f, 0.0f });
 		verts.emplace_back(Vec3{ half, half, -half }, Vec2{ 1.0f, 0.0f });
@@ -27,10 +27,10 @@ public:
 		} };
 	}
 
-	template<typename V>
-	static IndexedTriangleList<V> GetColorVertexCube(float size) {
+	template<typename Vertex>
+	static IndexedTriangleList<Vertex> GetColorVertexCube(float size) {
 		float half = size / 2.0f;
-		std::vector<V> verts;
+		std::vector<Vertex> verts;
 		verts.reserve(8);
 		verts.emplace_back(Vec3{ -half, half, -half });
 		verts.emplace_back(Vec3{ half, half, -half });

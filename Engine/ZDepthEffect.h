@@ -1,6 +1,6 @@
 #pragma once
-#pragma once
 #include "Vector3.h"
+#include "Colors.h"
 #include <algorithm>
 
 class ZDepthEffect {

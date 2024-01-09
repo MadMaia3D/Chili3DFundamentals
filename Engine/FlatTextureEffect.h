@@ -55,8 +55,8 @@ public:
 public:
 	Color operator()(const Vertex& scanPosInfo) {
 		assert(texture.get() != nullptr);
-		const int textureLookupX = std::clamp(0, int(scanPosInfo.tc.x * sufaceMaxWidth), sufaceMaxWidth);
-		const int textureLookupY = std::clamp(0, int(scanPosInfo.tc.y * surfaceMaxHeight), surfaceMaxHeight);
+		const int textureLookupX = std::clamp(int(scanPosInfo.tc.x * sufaceMaxWidth), 0, sufaceMaxWidth);
+		const int textureLookupY = std::clamp(int(scanPosInfo.tc.y * surfaceMaxHeight), 0, surfaceMaxHeight);
 		return texture->GetPixel(textureLookupX, textureLookupY);
 	}
 	void BindTexture(const std::wstring filePath) {

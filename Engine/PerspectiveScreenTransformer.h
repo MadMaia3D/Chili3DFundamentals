@@ -9,14 +9,18 @@ public:
 		xFactor(Graphics::ScreenWidth / 2),
 		yFactor(Graphics::ScreenHeight / 2)
 	{}
-	Vec3& Transform(Vec3& v) const {
-		const float zInv = 1.0f / v.z;
-		v.x = (v.x * zInv + 1.0f) * xFactor;
-		v.y = (-v.y * zInv + 1.0f) * yFactor;
+	template<typename Vertex>
+	Vertex& TransformVertex(Vertex& v) const {
+		const float zInv = 1.0f / v.pos.z;
+		v *= zInv;
+		v.pos.x = (v.pos.x + 1.0f) * xFactor;
+		v.pos.y = (-v.pos.y + 1.0f) * yFactor;
+		v.pos.z = zInv;
 		return v;
 	}
-	Vec3 GetTransformed(const Vec3& v) const {
-		return Transform(Vec3(v));
+	template<typename Vertex>
+	Vertex GetTransformedVertex(const Vertex& v) const {
+		return Transform(Vertex(v));
 	}
 private:
 	float xFactor;

@@ -52,9 +52,9 @@ private:
 	void PerspectiveScreenTransform(Vertex v0, Vertex v1, Vertex v2) {
 		// apply perspective transform to the triangle
 		// apply screen transform to the triangle
-		pst.Transform(v0.pos);
-		pst.Transform(v1.pos);
-		pst.Transform(v2.pos);
+		pst.TransformVertex(v0);
+		pst.TransformVertex(v1);
+		pst.TransformVertex(v2);
 		RasterizeTriangle(v0, v1, v2);
 	}
 
@@ -141,7 +141,9 @@ private:
 			Vertex scanPosDelta = (rightEdgeInterpolant - leftEdgeInterpolant) / deltaX;
 
 			for (int x = xStart; x < xEnd; x++, scanPos += scanPosDelta) {
-				gfx.PutPixel(x, y, pixelShader(scanPos));
+				const float uninvertedZ = 1.0f / scanPos.pos.z;
+				Vertex attributes = scanPos * uninvertedZ;
+				gfx.PutPixel(x, y, pixelShader(attributes));
 			}
 		}
 	}
