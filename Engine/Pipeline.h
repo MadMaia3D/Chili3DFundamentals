@@ -5,7 +5,7 @@
 #include "PerspectiveScreenTransformer.h"
 #include "Matrix3.h"
 #include "ChiliMath.h"
-#include "FlatTextureEffect.h"
+#include "ZBuffer.h"
 
 template <class PixelShaderEffect>
 class Pipeline {
@@ -14,7 +14,9 @@ public:
 public:
 	Pipeline(Graphics& gfx)
 		:
-		gfx(gfx) {
+		gfx(gfx),
+		buffer(gfx.ScreenWidth, gfx.ScreenHeight)
+	{
 	}
 
 	void BindRotation(const Mat3& rotation_in) { rotation = rotation_in; }
@@ -22,6 +24,9 @@ public:
 
 	void Draw(const IndexedTriangleList<Vertex>& vertices) {
 		VertexTransform(vertices);
+	}
+	void BeginFrame() {
+		buffer.Clear();
 	}
 
 private:
@@ -143,7 +148,9 @@ private:
 			for (int x = xStart; x < xEnd; x++, scanPos += scanPosDelta) {
 				const float uninvertedZ = 1.0f / scanPos.pos.z;
 				Vertex attributes = scanPos * uninvertedZ;
-				gfx.PutPixel(x, y, pixelShader(attributes));
+				if (buffer.TestAndSet(x,y, uninvertedZ)) {
+					gfx.PutPixel(x, y, pixelShader(attributes));
+				}
 			}
 		}
 	}
@@ -151,6 +158,7 @@ public:
 	PixelShaderEffect pixelShader;
 private:
 	Graphics& gfx;
+	ZBuffer buffer;
 	PerspectiveScreenTransformer pst;
 	Mat3 rotation;
 	Vec3 translation;

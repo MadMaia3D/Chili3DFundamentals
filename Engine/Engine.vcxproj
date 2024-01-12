@@ -157,7 +157,7 @@
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Pipeline.h" />
     <ClInclude Include="PerspectiveScreenTransformer.h" />
-    <ClInclude Include="PolygonalMesh.h" />
+    <ClInclude Include="Meshes.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Surface.h" />
@@ -166,6 +166,7 @@
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="VertexColorEffect.h" />
+    <ClInclude Include="ZBuffer.h" />
     <ClInclude Include="ZDepthEffect.h" />
   </ItemGroup>
   <ItemGroup>
@@ -246,6 +247,12 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Chili.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Models\skinned_cube_indices.txt" />
+    <Text Include="Models\skinned_cube_vertices.txt" />
+    <Text Include="Models\suzanne_indices.txt" />
+    <Text Include="Models\suzanne_vertices.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

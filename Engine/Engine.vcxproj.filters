@@ -28,6 +28,9 @@
     <Filter Include="Header Files\Math">
       <UniqueIdentifier>{82688ce3-22ff-4813-99ca-b2ca6b1bd03b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Models">
+      <UniqueIdentifier>{fc0a0d3a-2296-489c-85f4-2691ccd9f530}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChiliWin.h">
@@ -81,9 +84,6 @@
     <ClInclude Include="ZDepthEffect.h">
       <Filter>Header Files\PixelShaders</Filter>
     </ClInclude>
-    <ClInclude Include="PolygonalMesh.h">
-      <Filter>Header Files\Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="IndexedTriangleList.h">
       <Filter>Header Files\Pipeline</Filter>
     </ClInclude>
@@ -116,6 +116,12 @@
     </ClInclude>
     <ClInclude Include="TexVertex.h">
       <Filter>Header Files\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="ZBuffer.h">
+      <Filter>Header Files\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Meshes.h">
+      <Filter>Header Files\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -164,5 +170,19 @@
     <Image Include="Chili.ico">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Models\suzanne_indices.txt">
+      <Filter>Header Files\Models</Filter>
+    </Text>
+    <Text Include="Models\suzanne_vertices.txt">
+      <Filter>Header Files\Models</Filter>
+    </Text>
+    <Text Include="Models\skinned_cube_vertices.txt">
+      <Filter>Header Files\Models</Filter>
+    </Text>
+    <Text Include="Models\skinned_cube_indices.txt">
+      <Filter>Header Files\Models</Filter>
+    </Text>
   </ItemGroup>
 </Project>
