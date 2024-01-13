@@ -7,10 +7,10 @@
 #include "ChiliMath.h"
 #include "ZBuffer.h"
 
-template <class PixelShaderEffect>
+template <class Effect>
 class Pipeline {
 public:
-	typedef typename PixelShaderEffect::Vertex Vertex;
+	typedef typename Effect::Vertex Vertex;
 public:
 	Pipeline(Graphics& gfx)
 		:
@@ -149,13 +149,13 @@ private:
 				const float uninvertedZ = 1.0f / scanPos.pos.z;
 				Vertex attributes = scanPos * uninvertedZ;
 				if (buffer.TestAndSet(x,y, uninvertedZ)) {
-					gfx.PutPixel(x, y, pixelShader(attributes));
+					gfx.PutPixel(x, y, effect.pixelShader(attributes));
 				}
 			}
 		}
 	}
 public:
-	PixelShaderEffect pixelShader;
+	Effect effect;
 private:
 	Graphics& gfx;
 	ZBuffer buffer;

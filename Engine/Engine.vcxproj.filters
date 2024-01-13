@@ -16,9 +16,6 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{8b6c92a8-f65d-451e-80e3-d65773602b92}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\PixelShaders">
-      <UniqueIdentifier>{9b9e8764-c661-4cfc-bc5b-5f944ef1bef5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Mesh">
       <UniqueIdentifier>{86b10217-c1ab-4db4-9f8d-3cc5500879bc}</UniqueIdentifier>
     </Filter>
@@ -30,6 +27,9 @@
     </Filter>
     <Filter Include="Header Files\Models">
       <UniqueIdentifier>{fc0a0d3a-2296-489c-85f4-2691ccd9f530}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Effects">
+      <UniqueIdentifier>{9b9e8764-c661-4cfc-bc5b-5f944ef1bef5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -76,13 +76,13 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FlatTextureEffect.h">
-      <Filter>Header Files\PixelShaders</Filter>
+      <Filter>Header Files\Effects</Filter>
     </ClInclude>
     <ClInclude Include="VertexColorEffect.h">
-      <Filter>Header Files\PixelShaders</Filter>
+      <Filter>Header Files\Effects</Filter>
     </ClInclude>
     <ClInclude Include="ZDepthEffect.h">
-      <Filter>Header Files\PixelShaders</Filter>
+      <Filter>Header Files\Effects</Filter>
     </ClInclude>
     <ClInclude Include="IndexedTriangleList.h">
       <Filter>Header Files\Pipeline</Filter>

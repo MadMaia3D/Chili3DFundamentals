@@ -56,9 +56,13 @@ public:
 		Vec3 pos{};
 		Vec3 color{};
 	};
+	class PixelShader {
+	public:
+		Color operator()(const Vertex& scanPosInfo) const {
+			return Color(scanPosInfo.color);
+		}
+	};
 public:
-	Color operator()(const Vertex& scanPosInfo) {
-		return Color(scanPosInfo.color);
-	}
+	PixelShader pixelShader;
 };
 

@@ -45,10 +45,14 @@ public:
 		}
 		Vec3 pos{};
 	};
+	class PixelShader {
+	public:
+		Color operator()(const Vertex& scanPosInfo) const {
+			const unsigned char z = 255u - std::clamp(unsigned int(scanPosInfo.pos.z * 50), 0u, 255u);
+			return Color(z, z, z);
+		}
+	};
 public:
-	Color operator()(const Vertex& scanPosInfo) {
-		const unsigned char z = 255u - std::clamp(unsigned int(scanPosInfo.pos.z * 50), 0u, 255u);
-		return Color(z, z, z);
-	}
+	PixelShader pixelShader;
 };
 

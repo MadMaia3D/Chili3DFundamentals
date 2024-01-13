@@ -30,7 +30,7 @@ Game::Game(MainWindow& wnd)
 	pipeline(gfx),
 	itList(Meshes::GetSuzanne<Vertex>())
 {
-	pipeline.pixelShader.BindTexture(L"Textures\\Checker.jpg");
+	pipeline.effect.pixelShader.BindTexture(L"Textures\\Checker.jpg");
 }
 
 void Game::Go() {
