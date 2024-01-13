@@ -1,5 +1,5 @@
 #pragma once
-#include "Vector3.h"
+#include "DefaultVertexShader.h"
 #include "Colors.h"
 
 class VertexColorEffect{
@@ -56,6 +56,8 @@ public:
 		Vec3 pos{};
 		Vec3 color{};
 	};
+	typedef DefaultVertexShader<Vertex>::Output VertexOutput;
+public:
 	class PixelShader {
 	public:
 		Color operator()(const Vertex& scanPosInfo) const {
@@ -63,6 +65,7 @@ public:
 		}
 	};
 public:
+	DefaultVertexShader<Vertex> vertexShader;
 	PixelShader pixelShader;
 };
 

@@ -75,7 +75,7 @@ void Game::ComposeFrame() {
 	const Mat3 rot = Mat3::RotationX(thetaX) * Mat3::RotationY(thetaY) * Mat3::RotationZ(thetaZ);
 
 	pipeline.BeginFrame();
-	pipeline.BindRotation(rot);
-	pipeline.BindTranslation({ 0.0f, 0.0f, offsetZ });
+	pipeline.effect.vertexShader.BindRotation(rot);
+	pipeline.effect.vertexShader.BindTranslation({ 0.0f, 0.0f, offsetZ });
 	pipeline.Draw(itList);
 }

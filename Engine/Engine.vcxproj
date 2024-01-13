@@ -170,6 +170,7 @@
     <ClInclude Include="ZDepthEffect.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DefaultVertexShader.h" />
     <ClCompile Include="DXErr.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GDIPlusManager.cpp" />

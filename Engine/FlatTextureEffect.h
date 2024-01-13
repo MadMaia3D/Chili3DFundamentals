@@ -1,5 +1,5 @@
 #pragma once
-#include "Vector3.h"
+#include "DefaultVertexShader.h"
 #include "Surface.h"
 #include <algorithm>
 
@@ -52,6 +52,8 @@ public:
 		Vec3 pos{};
 		Vec2 tc{};
 	};
+	typedef DefaultVertexShader<Vertex>::Output VertexOutput;
+public:
 	class PixelShader {
 	public:
 		Color operator()(const Vertex& scanPosInfo) const {
@@ -73,6 +75,7 @@ public:
 		int surfaceMaxHeight;
 	};
 public:
+	DefaultVertexShader<Vertex> vertexShader;
 	PixelShader pixelShader;
 };
 
