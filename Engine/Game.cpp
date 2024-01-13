@@ -28,7 +28,8 @@ Game::Game(MainWindow& wnd)
 	wnd(wnd),
 	gfx(wnd),
 	pipeline(gfx),
-	itList(Meshes::GetSuzanne<Vertex>())
+	itList(Meshes::GetPlane<Vertex>())
+	//itList(Meshes::GetSuzanne<Vertex>())
 {
 	pipeline.effect.pixelShader.BindTexture(L"Textures\\Checker.jpg");
 }

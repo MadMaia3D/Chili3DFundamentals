@@ -24,7 +24,6 @@
 #include "Meshes.h"
 #include "FrameTimer.h"
 #include "Pipeline.h"
-#include "FlatTextureEffect.h"
 #include "WaveVertexTextureEffect.h"
 
 class Game
