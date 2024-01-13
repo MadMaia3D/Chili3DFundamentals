@@ -166,8 +166,8 @@
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="VertexColorEffect.h" />
+    <ClInclude Include="WaveVertexTextureEffect.h" />
     <ClInclude Include="ZBuffer.h" />
-    <ClInclude Include="ZDepthEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DefaultVertexShader.h" />

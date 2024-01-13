@@ -1,3 +1,4 @@
+#pragma once
 #include "Matrix3.h"
 
 template <class Vertex>

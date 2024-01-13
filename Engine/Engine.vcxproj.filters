@@ -81,9 +81,6 @@
     <ClInclude Include="VertexColorEffect.h">
       <Filter>Header Files\Effects</Filter>
     </ClInclude>
-    <ClInclude Include="ZDepthEffect.h">
-      <Filter>Header Files\Effects</Filter>
-    </ClInclude>
     <ClInclude Include="IndexedTriangleList.h">
       <Filter>Header Files\Pipeline</Filter>
     </ClInclude>
@@ -122,6 +119,9 @@
     </ClInclude>
     <ClInclude Include="Meshes.h">
       <Filter>Header Files\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveVertexTextureEffect.h">
+      <Filter>Header Files\Effects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

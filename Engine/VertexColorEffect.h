@@ -56,7 +56,7 @@ public:
 		Vec3 pos{};
 		Vec3 color{};
 	};
-	typedef DefaultVertexShader<Vertex>::Output VertexOutput;
+	typedef DefaultVertexShader<Vertex> VertexShader;
 public:
 	class PixelShader {
 	public:

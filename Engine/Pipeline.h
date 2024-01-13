@@ -8,12 +8,13 @@
 #include "ZBuffer.h"
 #include <algorithm>
 #include <iterator>
+#include <Windows.h>
 
 template <class Effect>
 class Pipeline {
 public:
 	typedef typename Effect::Vertex Vertex;
-	typedef typename Effect::VertexOutput VSOut;
+	typedef typename Effect::VertexShader::Output VSOut;
 public:
 	Pipeline(Graphics& gfx)
 		:
@@ -129,7 +130,6 @@ private:
 		// Microsoft DirectX10 rasterization "top-edge" rule
 		const int yStart = (int)std::ceil(v0.pos.y - 0.5f);
 		const int yEnd = (int)std::ceil(v2.pos.y - 0.5f);
-
 		// do pre step
 		VSOut&leftEdgeInterpolant = leftEdgeStartVertex;
 		VSOut& rightEdgeInterpolant = rightEdgeStartVertex;

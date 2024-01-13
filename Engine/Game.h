@@ -25,6 +25,7 @@
 #include "FrameTimer.h"
 #include "Pipeline.h"
 #include "FlatTextureEffect.h"
+#include "WaveVertexTextureEffect.h"
 
 class Game
 {
@@ -49,7 +50,7 @@ private:
 	float thetaY = 0.0f;
 	float thetaZ = 0.0f;
 	float offsetZ = 2.0f;
-	typedef Pipeline<FlatTextureEffect> Pipeline;
+	typedef Pipeline<WaveVertexTextureEffect> Pipeline;
 	typedef Pipeline::Vertex Vertex;
 	Pipeline pipeline;
 	IndexedTriangleList<Vertex> itList;

@@ -1,9 +1,9 @@
 #pragma once
-#include "DefaultVertexShader.h"
 #include "Surface.h"
+#include "Matrix3.h"
 #include <algorithm>
 
-class FlatTextureEffect {
+class WaveVertexTextureEffect {
 public:
 	class Vertex {
 	public:
@@ -52,7 +52,33 @@ public:
 		Vec3 pos{};
 		Vec2 tc{};
 	};
-	typedef DefaultVertexShader<Vertex> VertexShader;
+
+	class VertexShader {
+	public:
+		typedef Vertex Output;
+	public:
+		void BindRotation(const Mat3& rotation_in) {
+			rotation = rotation_in;
+		}
+		void BindTranslation(const Vec3& translation_in) {
+			translation = translation_in;
+		}
+		Output operator()(const Vertex& input) {
+			Vec3 pos = input.pos * rotation + translation;
+			pos.y += waveAmplitude * sin( pos.x * waveFrequency + offset * waveSpeed );
+			return { pos, input };
+		}
+		void SetWaveOffset(float value) {
+			offset += value;
+		}
+	private:
+		Vec3 translation;
+		Mat3 rotation;
+		float waveAmplitude = 0.05f;
+		float waveFrequency = 20.0f;
+		float waveSpeed = 2.0f;
+		float offset = 0.0f;
+	};
 public:
 	class PixelShader {
 	public:
@@ -75,6 +101,6 @@ public:
 		int surfaceMaxHeight;
 	};
 public:
-	DefaultVertexShader<Vertex> vertexShader;
+	VertexShader vertexShader;
 	PixelShader pixelShader;
 };
