@@ -31,6 +31,15 @@
     <Filter Include="Header Files\Effects">
       <UniqueIdentifier>{9b9e8764-c661-4cfc-bc5b-5f944ef1bef5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Effects\PixelShaders">
+      <UniqueIdentifier>{4fd73c14-cdf8-42f3-96bb-e6e6e1b41107}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Effects\VertexShaders">
+      <UniqueIdentifier>{8bcaaa54-2657-43a7-bce2-918fd7acda18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Effects\VertexTypes">
+      <UniqueIdentifier>{4eb6d924-63fa-4354-af48-9ff4314ea75f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChiliWin.h">
@@ -120,8 +129,14 @@
     <ClInclude Include="Meshes.h">
       <Filter>Header Files\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="WaveVertexTextureEffect.h">
+    <ClInclude Include="PixelShaders.h">
+      <Filter>Header Files\Effects\PixelShaders</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveTextureEffect.h">
       <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexTypes.h">
+      <Filter>Header Files\Effects\VertexTypes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -153,7 +168,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DefaultVertexShader.h">
-      <Filter>Header Files\Effects</Filter>
+      <Filter>Header Files\Effects\VertexShaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

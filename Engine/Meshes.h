@@ -5,7 +5,7 @@
 class Meshes {
 public:
 	template<typename Vertex>
-	static IndexedTriangleList<Vertex> GetTexturedCube(float size) {
+	static IndexedTriangleList<Vertex> GetTexturedCube(float size = 1.0f) {
 		float half = size / 2.0f;
 		std::vector<Vertex> verts;
 		verts.reserve(8);
@@ -29,7 +29,7 @@ public:
 	}
 
 	template<typename Vertex>
-	static IndexedTriangleList<Vertex> GetColorVertexCube(float size) {
+	static IndexedTriangleList<Vertex> GetColorVertexCube(float size = 1.0f) {
 		float half = size / 2;
 		std::vector<Vertex> verts;
 		verts.reserve(8);
@@ -53,7 +53,7 @@ public:
 	}
 
 	template<typename Vertex>
-	static IndexedTriangleList<Vertex> GetSkinnedCube(float size) {
+	static IndexedTriangleList<Vertex> GetSkinnedCube(float size = 1.0f) {
 		float half = size / 2.0f;
 		std::vector<Vertex> verts;
 #include "./Models/skinned_cube_vertices.txt"
@@ -77,7 +77,7 @@ public:
 	}
 
 	template<typename Vertex>
-	static IndexedTriangleList<Vertex> GetPlane(float size = 1.0f, int divisions = 20) {
+	static IndexedTriangleList<Vertex> GetPlane(float size = 1.0f, int divisions = 8) {
 		// divisions is the number of edges at each side of the plane
 		// nVertexSide is the number of edges at each side of the plane
 		const int nVerticesSide = divisions + 1;
