@@ -21,7 +21,7 @@
 #pragma once
 
 #include "Graphics.h"
-#include "PolygonalMesh.h"
+#include "Meshes.h"
 #include "FrameTimer.h"
 #include "Pipeline.h"
 #include "FlatTextureEffect.h"

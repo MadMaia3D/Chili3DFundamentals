@@ -28,7 +28,7 @@ Game::Game(MainWindow& wnd)
 	wnd(wnd),
 	gfx(wnd),
 	pipeline(gfx),
-	itList(Cube::GetTexturedCube<Vertex>(1.0f))
+	itList(Meshes::GetSuzanne<Vertex>())
 {
 	pipeline.pixelShader.BindTexture(L"Textures\\Checker.jpg");
 }
@@ -64,7 +64,7 @@ void Game::UpdateModel() {
 		offsetZ += 3 * dt;
 	}
 	if (wnd.kbd.KeyIsPressed('F')) {
-		offsetZ = std::max(1.4f, offsetZ - 3 * dt);
+		offsetZ = std::max(1.3f, offsetZ - 3 * dt);
 	}
 	thetaX = wrap_angle(thetaX);
 	thetaY = wrap_angle(thetaY);
@@ -74,6 +74,7 @@ void Game::UpdateModel() {
 void Game::ComposeFrame() {
 	const Mat3 rot = Mat3::RotationX(thetaX) * Mat3::RotationY(thetaY) * Mat3::RotationZ(thetaZ);
 
+	pipeline.BeginFrame();
 	pipeline.BindRotation(rot);
 	pipeline.BindTranslation({ 0.0f, 0.0f, offsetZ });
 	pipeline.Draw(itList);
