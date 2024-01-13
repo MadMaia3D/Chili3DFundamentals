@@ -7,6 +7,7 @@ class WaveVertexTextureEffect {
 public:
 	class Vertex {
 	public:
+		Vertex() = default;
 		Vertex(const Vec3& position, const Vec2& textureCoordinate)
 			:
 			pos(position),
@@ -64,9 +65,9 @@ public:
 			translation = translation_in;
 		}
 		Output operator()(const Vertex& input) {
-			Vec3 pos = input.pos * rotation + translation;
-			pos.y += waveAmplitude * sin( pos.x * waveFrequency + offset * waveSpeed );
-			return { pos, input };
+			Vec3 pos = input.pos;
+			pos.z += waveAmplitude * sin( (pos.x + pos.y) * waveFrequency + offset * waveSpeed );
+			return { pos * rotation + translation, input };
 		}
 		void SetWaveOffset(float value) {
 			offset += value;
@@ -75,8 +76,8 @@ public:
 		Vec3 translation;
 		Mat3 rotation;
 		float waveAmplitude = 0.05f;
-		float waveFrequency = 20.0f;
-		float waveSpeed = 2.0f;
+		float waveFrequency = 10.0f;
+		float waveSpeed = 5.0f;
 		float offset = 0.0f;
 	};
 public:
