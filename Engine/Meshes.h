@@ -111,15 +111,22 @@ public:
 				indices.push_back(quadIndices[3]);
 				indices.push_back(quadIndices[2]);
 			}
-		}
+		}		
+		return IndexedTriangleList<Vertex>(vertices, indices);
+	}
+
+	template<typename Vertex>
+	static IndexedTriangleList<Vertex> GetSkinnedPlane(float size = 1.0f, int divisions = 8) {
+		IndexedTriangleList<Vertex> vertices = GetPlane<Vertex>(size, divisions);
+		const int nVerticesSide = divisions + 1;
 
 		// generate coordinates
 		const float tcStep = 1.0f / float(divisions);
 		for (int y = 0, i = 0; y < nVerticesSide; y++) {
 			for (int x = 0; x < nVerticesSide; x++, i++) {
-				vertices[i].tc = { float(x * tcStep), 1.0f - float(y * tcStep) };
+				vertices.vertices[i].tc = { float(x * tcStep), 1.0f - float(y * tcStep) };
 			}
 		}
-		return IndexedTriangleList<Vertex>(vertices, indices);
+		return vertices;
 	}
 };

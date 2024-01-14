@@ -4,6 +4,7 @@
 namespace VertexTypes {
 	class ColorVertex {
 	public:
+		ColorVertex() = default;
 		ColorVertex(const Vec3& position)
 			:
 			pos(position),

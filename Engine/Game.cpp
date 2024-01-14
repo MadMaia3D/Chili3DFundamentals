@@ -28,7 +28,7 @@ Game::Game(MainWindow& wnd)
 	wnd(wnd),
 	gfx(wnd),
 	pipeline(gfx),
-	itList(Meshes::GetPlane<Vertex>(1.2f, 32))
+	itList(Meshes::GetSkinnedPlane<Vertex>(1.2f, 32))
 {
 	pipeline.effect.pixelShader.BindTexture(L"Textures\\UVChecker_003.jpg");
 }
@@ -73,7 +73,7 @@ void Game::UpdateModel() {
 	const Mat3 rot = Mat3::RotationX(thetaX) * Mat3::RotationY(thetaY) * Mat3::RotationZ(thetaZ);
 	pipeline.effect.vertexShader.BindRotation(rot);
 	pipeline.effect.vertexShader.BindTranslation({ 0.0f, 0.0f, offsetZ });
-	pipeline.effect.vertexShader.SetWaveOffset(dt);
+	//pipeline.effect.vertexShader.SetWaveOffset(dt);
 }
 
 void Game::ComposeFrame() {

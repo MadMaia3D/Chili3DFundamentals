@@ -159,6 +159,7 @@
     <ClInclude Include="Pipeline.h" />
     <ClInclude Include="PerspectiveScreenTransformer.h" />
     <ClInclude Include="Meshes.h" />
+    <ClInclude Include="PlainPositionVertex.h" />
     <ClInclude Include="TextureClipped.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Resource.h" />
@@ -173,6 +174,7 @@
     <ClInclude Include="WavyTextureEffect.h" />
     <ClInclude Include="WavyVertexShader.h" />
     <ClInclude Include="ZBuffer.h" />
+    <ClInclude Include="ZDepthEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DefaultVertexShader.h" />

@@ -147,6 +147,12 @@
     <ClInclude Include="WavyTextureEffect.h">
       <Filter>Header Files\Effects</Filter>
     </ClInclude>
+    <ClInclude Include="PlainPositionVertex.h">
+      <Filter>Header Files\Effects\VertexTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="ZDepthEffect.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">

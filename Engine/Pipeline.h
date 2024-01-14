@@ -149,8 +149,9 @@ private:
 
 			for (int x = xStart; x < xEnd; x++, scanPos += scanPosDelta) {
 				const float uninvertedZ = 1.0f / scanPos.pos.z;
-				VSOut attributes = scanPos * uninvertedZ;
 				if (buffer.TestAndSet(x,y, uninvertedZ)) {
+					VSOut attributes = scanPos * uninvertedZ;
+					attributes.pos.z = uninvertedZ;
 					gfx.PutPixel(x, y, effect.pixelShader(attributes));
 				}
 			}
