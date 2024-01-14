@@ -117,7 +117,7 @@ public:
 		const float tcStep = 1.0f / float(divisions);
 		for (int y = 0, i = 0; y < nVerticesSide; y++) {
 			for (int x = 0; x < nVerticesSide; x++, i++) {
-				vertices[i].tc = { float(x * tcStep), float(y * tcStep) };
+				vertices[i].tc = { float(x * tcStep), 1.0f - float(y * tcStep) };
 			}
 		}
 		return IndexedTriangleList<Vertex>(vertices, indices);
