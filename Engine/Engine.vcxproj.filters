@@ -129,14 +129,23 @@
     <ClInclude Include="Meshes.h">
       <Filter>Header Files\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="PixelShaders.h">
+    <ClInclude Include="TextureClipped.h">
       <Filter>Header Files\Effects\PixelShaders</Filter>
     </ClInclude>
-    <ClInclude Include="WaveTextureEffect.h">
-      <Filter>Header Files\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexTypes.h">
+    <ClInclude Include="ColorVertex.h">
       <Filter>Header Files\Effects\VertexTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="TexturedVertex.h">
+      <Filter>Header Files\Effects\VertexTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="PaintByVertexColor.h">
+      <Filter>Header Files\Effects\PixelShaders</Filter>
+    </ClInclude>
+    <ClInclude Include="WavyVertexShader.h">
+      <Filter>Header Files\Effects\VertexShaders</Filter>
+    </ClInclude>
+    <ClInclude Include="WavyTextureEffect.h">
+      <Filter>Header Files\Effects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,12 +1,12 @@
 #pragma once
 #include "TexturedVertex.h"
-#include "DefaultVertexShader.h"
+#include "WavyVertexShader.h"
 #include "TextureClipped.h"
 
-class FlatTextureEffect {
+class WavyTextureEffect {
 public:
 	typedef VertexTypes::TexturedVertex Vertex;
-	typedef VertexShaders::DefaultVertexShader<Vertex> VertexShader;
+	typedef VertexShaders::WavyVertexShader<Vertex> VertexShader;
 	typedef PixelShaders::TextureClipped<Vertex> PixelShader;
 public:
 	VertexShader vertexShader;

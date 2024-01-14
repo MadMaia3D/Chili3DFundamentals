@@ -28,9 +28,9 @@ Game::Game(MainWindow& wnd)
 	wnd(wnd),
 	gfx(wnd),
 	pipeline(gfx),
-	itList(Meshes::GetPlane<Vertex>(1.0f, 32))
+	itList(Meshes::GetPlane<Vertex>(1.2f, 32))
 {
-	pipeline.effect.pixelShader.BindTexture(L"Textures\\Checker.jpg");
+	pipeline.effect.pixelShader.BindTexture(L"Textures\\UVChecker_003.jpg");
 }
 
 void Game::Go() {
