@@ -143,6 +143,7 @@
     <ClInclude Include="ChiliWin.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="ColorVertex.h" />
+    <ClInclude Include="DefaultGeometryShader.h" />
     <ClInclude Include="DXErr.h" />
     <ClInclude Include="FlatTextureEffect.h" />
     <ClInclude Include="FrameTimer.h" />

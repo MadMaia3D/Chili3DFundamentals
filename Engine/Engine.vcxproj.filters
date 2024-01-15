@@ -40,6 +40,9 @@
     <Filter Include="Header Files\Effects\VertexTypes">
       <UniqueIdentifier>{4eb6d924-63fa-4354-af48-9ff4314ea75f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Effects\GeometryShader">
+      <UniqueIdentifier>{960e37f0-000b-4ca4-a731-3bdedf1c2559}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChiliWin.h">
@@ -152,6 +155,9 @@
     </ClInclude>
     <ClInclude Include="ZDepthEffect.h">
       <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultGeometryShader.h">
+      <Filter>Header Files\Effects\GeometryShader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

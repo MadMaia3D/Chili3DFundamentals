@@ -73,7 +73,7 @@ void Game::UpdateModel() {
 	const Mat3 rot = Mat3::RotationX(thetaX) * Mat3::RotationY(thetaY) * Mat3::RotationZ(thetaZ);
 	pipeline.effect.vertexShader.BindRotation(rot);
 	pipeline.effect.vertexShader.BindTranslation({ 0.0f, 0.0f, offsetZ });
-	//pipeline.effect.vertexShader.SetWaveOffset(dt);
+	pipeline.effect.vertexShader.SetWaveOffset(dt);
 }
 
 void Game::ComposeFrame() {

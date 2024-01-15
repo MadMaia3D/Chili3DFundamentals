@@ -15,6 +15,7 @@ class Pipeline {
 public:
 	typedef typename Effect::Vertex Vertex;
 	typedef typename Effect::VertexShader::Output VSOut;
+	typedef typename Effect::GeometryShader::Output GSOut;
 public:
 	Pipeline(Graphics& gfx)
 		:
@@ -52,28 +53,32 @@ private:
 			const VSOut& v2 = vertices[indices[i * 3 + 2]];
 			// test each vertice trio for back face culling
 			if ((v1.pos - v0.pos).CrossProduct(v2.pos - v0.pos) * v0.pos <= 0) {
-				PerspectiveScreenTransform(v0, v1, v2);
+				ProcessTriangles(v0, v1, v2, i);
 			};
 		}
 	}
 
-	void PerspectiveScreenTransform(VSOut v0, VSOut v1, VSOut v2) {
+	void ProcessTriangles(const VSOut& v0, const VSOut& v1, const VSOut& v2, size_t triangle_index) {
+		PerspectiveScreenTransform(effect.geometryShader(v0,v1,v2, triangle_index));
+	}
+
+	void PerspectiveScreenTransform(Triangle<GSOut>& triangle) {
 		// apply perspective transform to the triangle
 		// apply screen transform to the triangle
-		pst.TransformVertex(v0);
-		pst.TransformVertex(v1);
-		pst.TransformVertex(v2);
-		RasterizeTriangle(v0, v1, v2);
+		pst.TransformVertex(triangle.v0);
+		pst.TransformVertex(triangle.v1);
+		pst.TransformVertex(triangle.v2);
+		RasterizeTriangle(triangle);
 	}
 
-	void RasterizeTriangle(VSOut& v0, VSOut& v1, VSOut& v2) {
-		DrawTriangle(v0, v1, v2);
+	void RasterizeTriangle(const Triangle<GSOut>& triangle) {
+		DrawTriangle(triangle);
 	}
 
-	void DrawTriangle(const VSOut & v0, const VSOut & v1, const VSOut & v2) {
-		const VSOut* pv0 = &v0;
-		const VSOut* pv1 = &v1;
-		const VSOut* pv2 = &v2;
+	void DrawTriangle(const Triangle<GSOut>& triangle) {
+		const GSOut* pv0 = &triangle.v0;
+		const GSOut* pv1 = &triangle.v1;
+		const GSOut* pv2 = &triangle.v2;
 
 		if (pv1->pos.y < pv0->pos.y) { std::swap(pv0, pv1); }
 		if (pv2->pos.y < pv1->pos.y) { std::swap(pv1, pv2); }
@@ -103,36 +108,36 @@ private:
 	}
 
 	// mind the order of vertices: clockwise from the top
-	void DrawFlatBottomTriangle(const VSOut & v0, const VSOut & v1, const VSOut & v2) {
+	void DrawFlatBottomTriangle(const GSOut & v0, const GSOut & v1, const GSOut & v2) {
 		// calculate step of left and right edges
 		const float deltaY = (v2.pos.y - v0.pos.y);
-		VSOut leftEdgeStep = (v2 - v0) / deltaY;
-		VSOut rightEdgeStep = (v1 - v0) / deltaY;
+		GSOut leftEdgeStep = (v2 - v0) / deltaY;
+		GSOut rightEdgeStep = (v1 - v0) / deltaY;
 		DrawFlatTriangle(v0, v1, v2, leftEdgeStep, rightEdgeStep, v0, v0);
 	}
 
 	// mind the order of vertices: clockwise from the top left
-	void DrawFlatTopTriangle(const VSOut & v0, const VSOut & v1, const VSOut & v2) {
+	void DrawFlatTopTriangle(const GSOut & v0, const GSOut & v1, const GSOut & v2) {
 		// calculate step of left and right edges
 		const float deltaY = (v2.pos.y - v0.pos.y);
-		VSOut leftEdgeStep = (v2 - v0) / deltaY;
-		VSOut rightEdgeStep = (v2 - v1) / deltaY;
+		GSOut leftEdgeStep = (v2 - v0) / deltaY;
+		GSOut rightEdgeStep = (v2 - v1) / deltaY;
 		DrawFlatTriangle(v0, v1, v2, leftEdgeStep, rightEdgeStep, v0, v1);
 	}
 
-	void DrawFlatTriangle(const VSOut & v0,
-						  const VSOut & v1,
-						  const VSOut & v2,
-						  const VSOut& leftEdgestep,
-						  const VSOut& rightEdgestep,
-						  VSOut leftEdgeStartVertex,
-						  VSOut rightEdgeStartVertex) {
+	void DrawFlatTriangle(const GSOut & v0,
+						  const GSOut & v1,
+						  const GSOut & v2,
+						  const GSOut& leftEdgestep,
+						  const GSOut& rightEdgestep,
+						  GSOut leftEdgeStartVertex,
+						  GSOut rightEdgeStartVertex) {
 		// Microsoft DirectX10 rasterization "top-edge" rule
 		const int yStart = (int)std::ceil(v0.pos.y - 0.5f);
 		const int yEnd = (int)std::ceil(v2.pos.y - 0.5f);
 		// do pre step
-		VSOut&leftEdgeInterpolant = leftEdgeStartVertex;
-		VSOut& rightEdgeInterpolant = rightEdgeStartVertex;
+		GSOut&leftEdgeInterpolant = leftEdgeStartVertex;
+		GSOut& rightEdgeInterpolant = rightEdgeStartVertex;
 		leftEdgeInterpolant += leftEdgestep * (float(yStart) - leftEdgeInterpolant.pos.y + 0.5f);
 		rightEdgeInterpolant += rightEdgestep * (float(yStart) - rightEdgeInterpolant.pos.y + 0.5f);
 
@@ -142,15 +147,15 @@ private:
 			const int xStart = (int)std::ceil(leftEdgeInterpolant.pos.x - 0.5f);
 			const int xEnd = (int)std::ceil(rightEdgeInterpolant.pos.x - 0.5f);
 
-			VSOut scanPos = leftEdgeInterpolant;
+			GSOut scanPos = leftEdgeInterpolant;
 			// calculate scanline unit step
 			const float deltaX = rightEdgeInterpolant.pos.x - leftEdgeInterpolant.pos.x;
-			VSOut scanPosDelta = (rightEdgeInterpolant - leftEdgeInterpolant) / deltaX;
+			GSOut scanPosDelta = (rightEdgeInterpolant - leftEdgeInterpolant) / deltaX;
 
 			for (int x = xStart; x < xEnd; x++, scanPos += scanPosDelta) {
 				const float uninvertedZ = 1.0f / scanPos.pos.z;
 				if (buffer.TestAndSet(x,y, uninvertedZ)) {
-					VSOut attributes = scanPos * uninvertedZ;
+					GSOut attributes = scanPos * uninvertedZ;
 					attributes.pos.z = uninvertedZ;
 					gfx.PutPixel(x, y, effect.pixelShader(attributes));
 				}
