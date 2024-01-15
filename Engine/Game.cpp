@@ -30,7 +30,7 @@ Game::Game(MainWindow& wnd)
 	pipeline(gfx),
 	itList(Meshes::GetSkinnedPlane<Vertex>(1.2f, 32))
 {
-	pipeline.effect.pixelShader.BindTexture(L"Textures\\UVChecker_003.jpg");
+	pipeline.effect.pixelShader.BindTexture(L"Textures\\UVChecker_002.jpg");
 }
 
 void Game::Go() {

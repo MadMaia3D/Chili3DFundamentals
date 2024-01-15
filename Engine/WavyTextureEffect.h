@@ -1,8 +1,8 @@
 #pragma once
 #include "TexturedVertex.h"
 #include "WavyVertexShader.h"
-#include "TextureClipped.h"
 #include "DefaultGeometryShader.h"
+#include "TextureClipped.h"
 
 class WavyTextureEffect {
 public:

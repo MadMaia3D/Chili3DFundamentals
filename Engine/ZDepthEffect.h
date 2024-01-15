@@ -1,6 +1,7 @@
 #pragma once
 #include "PlainPositionVertex.h"
 #include "DefaultVertexShader.h"
+#include "DefaultGeometryShader.h"
 #include "Colors.h"
 #include <algorithm>
 
@@ -8,14 +9,16 @@ class ZDepthEffect {
 public:
 	typedef VertexTypes::PlainPositionVertex Vertex;
 	typedef VertexShaders::DefaultVertexShader<Vertex> VertexShader;
+	typedef GeometryShaders::DefaultGeometryShader<VertexShader::Output> GeometryShader;
 	class PixelShader {
 	public:
-		Color operator()(const Vertex& scanPosInfo) const {
-			unsigned char value = 255u - unsigned char(std::min(scanPosInfo.pos.z * 30.0f, 254.0f));
+		Color operator()(const GeometryShader::Output& scanPosInfo) const {
+			unsigned char value = 255u - unsigned char(std::min(scanPosInfo.pos.z * 30.0f, 253.0f));
 			return Color(value, value, value);
 		}
 	};
 public:
 	VertexShader vertexShader;
+	GeometryShader geometryShader;
 	PixelShader pixelShader;
 };

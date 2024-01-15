@@ -1,6 +1,5 @@
 #pragma once
 #include "IndexedTriangleList.h"
-#include "TexVertex.h"
 #include "Triangle.h"
 #include "PerspectiveScreenTransformer.h"
 #include "Matrix3.h"
@@ -8,7 +7,6 @@
 #include "ZBuffer.h"
 #include <algorithm>
 #include <iterator>
-#include <Windows.h>
 
 template <class Effect>
 class Pipeline {
