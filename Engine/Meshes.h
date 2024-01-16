@@ -42,6 +42,51 @@ public:
 	}
 
 	template<typename Vertex>
+	static IndexedTriangleList<Vertex> GetSplitCube(float size = 1.0f) {
+		float half = size / 2.0f;
+		std::vector<Vertex> vertices(24);
+		// front
+		vertices[0].pos = { -half, half, -half };
+		vertices[1].pos = { half, half, -half };
+		vertices[2].pos = { half, -half, -half };
+		vertices[3].pos = { -half, -half, -half };
+		// right
+		vertices[4].pos = { half, half, -half };
+		vertices[5].pos = { half, half, half };
+		vertices[6].pos = { half, -half, half };
+		vertices[7].pos = { half, -half, -half };
+		// back
+		vertices[8].pos = { half, half, half };
+		vertices[9].pos = { -half, half, half };
+		vertices[10].pos = { -half, -half, half };
+		vertices[11].pos = { half, -half, half };
+		// left
+		vertices[12].pos = { -half, half, half };
+		vertices[13].pos = { -half, half, -half };
+		vertices[14].pos = { -half, -half, -half };
+		vertices[15].pos = { -half, -half, half };
+		// top
+		vertices[16].pos = { half, half, -half };
+		vertices[17].pos = { -half, half, -half };
+		vertices[18].pos = { -half, half, half };
+		vertices[19].pos = { half, half, half };
+		// bottom
+		vertices[20].pos = { -half, -half, -half };
+		vertices[21].pos = { half, -half, -half };
+		vertices[22].pos = { half, -half, half };
+		vertices[23].pos = { -half, -half, half };
+		return {
+			std::move(vertices), {
+			0,1,2,		2,3,0,
+			4,5,6,		6,7,4,
+			8,9,10,		10,11,8,
+			12,13,14,	14,15,12,
+			16,17,18,	18,19,16,
+			20,21,22,	22,23,20
+		} };
+	}
+
+	template<typename Vertex>
 	static IndexedTriangleList<Vertex> GetSkinnedCube(float size = 1.0f) {
 		float half = size / 2.0f;
 		std::vector<Vertex> verts;
