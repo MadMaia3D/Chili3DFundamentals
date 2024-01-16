@@ -93,7 +93,7 @@ private:
 			// find alpha for linear interpolation (find the percentage of middle y between bottom y and top y)
 			const float alpha = (pv1->pos.y - pv0->pos.y) / (pv2->pos.y - pv0->pos.y);
 			// split vertex is the linear interpolation between v0 and v1
-			const VSOut sv = Interpolate(*pv0, *pv2, alpha);
+			const GSOut sv = Interpolate(*pv0, *pv2, alpha);
 
 			if (sv.pos.x < pv1->pos.x) {
 				DrawFlatBottomTriangle(*pv0, *pv1, sv);
