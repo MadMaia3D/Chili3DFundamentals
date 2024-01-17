@@ -17,7 +17,7 @@ namespace VertexShaders {
 			return { input.pos * rotation + translation, input };
 		}
 	private:
-		Vec3 translation;
-		Mat3 rotation;
+		Vec3 translation = {0.0f,0.0f,2.0f};
+		Mat3 rotation = Mat3::Identity();
 	};
 }

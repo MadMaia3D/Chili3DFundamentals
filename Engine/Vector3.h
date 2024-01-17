@@ -23,7 +23,7 @@ public:
 		return sq(*this);
 	}
 	T Lenght() const {
-		return sqrt(LenSq());
+		return sqrt(LenSquared());
 	}
 	Vector3& Normalize() {
 		const T length = Lenght();

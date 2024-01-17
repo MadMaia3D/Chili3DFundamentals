@@ -148,6 +148,8 @@
     <ClInclude Include="FlatColorTriangleEffect.h" />
     <ClInclude Include="FlatColorTriangleGeometryShader.h" />
     <ClInclude Include="FlatLightingEffect.h" />
+    <ClInclude Include="FlatLightingGeometryShader.h" />
+    <ClInclude Include="FlatLightingGeometryShaderEffect.h" />
     <ClInclude Include="FlatLightingVertexShader.h" />
     <ClInclude Include="FlatTextureEffect.h" />
     <ClInclude Include="FrameTimer.h" />
@@ -177,6 +179,7 @@
     <ClInclude Include="PaintByVertexColor.h" />
     <ClInclude Include="VertexColorEffect.h" />
     <ClInclude Include="TexturedVertex.h" />
+    <ClInclude Include="WavyFlatLightingEffect.h" />
     <ClInclude Include="WavyTextureEffect.h" />
     <ClInclude Include="WavyVertexShader.h" />
     <ClInclude Include="ZBuffer.h" />

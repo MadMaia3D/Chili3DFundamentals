@@ -28,9 +28,9 @@ Game::Game(MainWindow& wnd)
 	wnd(wnd),
 	gfx(wnd),
 	pipeline(gfx),
-	itList(Meshes::GetSkinnedPlane<Vertex>(1.2f, 32))
+	itList(Meshes::GetPlane<Vertex>(1.2f, 32))
 {
-	pipeline.effect.pixelShader.BindTexture(L"Textures\\UVChecker_002.jpg");
+	pipeline.effect.vertexShader.SetWaveSpeed(2.0f);
 }
 
 void Game::Go() {
@@ -66,14 +66,30 @@ void Game::UpdateModel() {
 	if (wnd.kbd.KeyIsPressed('F')) {
 		offsetZ = std::max(1.3f, offsetZ - 3 * dt);
 	}
+	// lights
+	if (wnd.kbd.KeyIsPressed('J')) {
+		lightRotationY += dt * 3.0f;
+	}
+	if (wnd.kbd.KeyIsPressed('L')) {
+		lightRotationY -= dt * 3.0f;
+	}
+	if (wnd.kbd.KeyIsPressed('I')) {
+		lightRotationX += dt * 3.0f;
+	}
+	if (wnd.kbd.KeyIsPressed('K')) {
+		lightRotationX -= dt * 3.0f;
+	}
 	thetaX = wrap_angle(thetaX);
 	thetaY = wrap_angle(thetaY);
 	thetaZ = wrap_angle(thetaZ);
+	lightRotationY = wrap_angle(lightRotationY);
 
 	const Mat3 rot = Mat3::RotationX(thetaX) * Mat3::RotationY(thetaY) * Mat3::RotationZ(thetaZ);
 	pipeline.effect.vertexShader.BindRotation(rot);
 	pipeline.effect.vertexShader.BindTranslation({ 0.0f, 0.0f, offsetZ });
-	pipeline.effect.vertexShader.SetWaveOffset(dt);
+	const Vec3 lightDirection = Vec3(0.0f,0.0f,1.0f) * Mat3::RotationX(lightRotationX) * Mat3::RotationY(lightRotationY);
+	pipeline.effect.geometryShader.SetLightDirection(lightDirection);
+	pipeline.effect.vertexShader.OffsetWave(dt);
 }
 
 void Game::ComposeFrame() {

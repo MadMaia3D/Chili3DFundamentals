@@ -18,13 +18,21 @@ namespace VertexShaders {
 			pos.z += waveAmplitude * sin((pos.x + pos.y) * waveFrequency + offset * waveSpeed);
 			return { pos * rotation + translation, input };
 		}
-		void SetWaveOffset(float value) {
+		void OffsetWave(float value) {
 			offset += value;
+		}
+		void SetWaveAmplitude(float value) {
+			SetWaveAmplitude = value;
+		}
+		void SetWaveFrequency(float value) {
+			waveFrequency = value;
+		}
+		void SetWaveSpeed(float value) {
+			waveSpeed = value;
 		}
 	private:
 		Vec3 translation;
 		Mat3 rotation;
-	public:
 		float waveAmplitude = 0.05f;
 		float waveFrequency = 10.0f;
 		float waveSpeed = 5.0f;

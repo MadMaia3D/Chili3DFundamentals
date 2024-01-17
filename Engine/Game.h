@@ -24,7 +24,7 @@
 #include "Meshes.h"
 #include "FrameTimer.h"
 #include "Pipeline.h"
-#include "WavyTextureEffect.h"
+#include "WavyFlatLightingEffect.h"
 
 class Game
 {
@@ -49,7 +49,9 @@ private:
 	float thetaY = 0.0f;
 	float thetaZ = 0.0f;
 	float offsetZ = 2.0f;
-	typedef Pipeline<WavyTextureEffect> Pipeline;
+	float lightRotationX = 0.0f;
+	float lightRotationY = 0.0f;
+	typedef Pipeline<WavyFlatLightingEffect> Pipeline;
 	typedef Pipeline::Vertex Vertex;
 	Pipeline pipeline;
 	IndexedTriangleList<Vertex> itList;
