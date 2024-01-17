@@ -22,13 +22,14 @@
 #include "Game.h"
 #include "Matrix3.h"
 #include "ChiliMath.h"
+#include "Plane.h"
 
 Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
 	gfx(wnd),
 	pipeline(gfx),
-	itList(Meshes::GetPlane<Vertex>(1.2f, 32))
+	itList(Plane::GetPlane<Vertex>(1.0f, 16))
 {
 	pipeline.effect.vertexShader.SetWaveSpeed(2.0f);
 }

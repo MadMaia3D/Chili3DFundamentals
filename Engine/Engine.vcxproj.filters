@@ -183,6 +183,12 @@
     <ClInclude Include="WavyFlatLightingEffect.h">
       <Filter>Header Files\Effects</Filter>
     </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>Header Files\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Header Files\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">

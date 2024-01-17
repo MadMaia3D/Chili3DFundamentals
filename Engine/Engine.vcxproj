@@ -143,6 +143,7 @@
     <ClInclude Include="ChiliWin.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="ColorVertex.h" />
+    <ClInclude Include="Cube.h" />
     <ClInclude Include="DefaultGeometryShader.h" />
     <ClInclude Include="DXErr.h" />
     <ClInclude Include="FlatColorTriangleEffect.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="PerspectiveScreenTransformer.h" />
     <ClInclude Include="Meshes.h" />
     <ClInclude Include="PlainPositionVertex.h" />
+    <ClInclude Include="Plane.h" />
     <ClInclude Include="TextureClipped.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Resource.h" />
