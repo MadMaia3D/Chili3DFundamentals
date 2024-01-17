@@ -87,6 +87,42 @@ public:
 	}
 
 	template<typename Vertex>
+	static IndexedTriangleList<Vertex> GetNormalsCube(float size = 1.0f) {
+		IndexedTriangleList<Vertex> vertices = GetSplitCube<Vertex>(size);
+		// front normals
+		vertices.vertices[0].normal = Vec3{ 0.0f, 0.0f, -1.0f };
+		vertices.vertices[1].normal = Vec3{ 0.0f, 0.0f, -1.0f };
+		vertices.vertices[2].normal = Vec3{ 0.0f, 0.0f, -1.0f };
+		vertices.vertices[3].normal = Vec3{ 0.0f, 0.0f, -1.0f };
+		// right normals
+		vertices.vertices[4].normal = Vec3{ 1.0f, 0.0f, 0.0f };
+		vertices.vertices[5].normal = Vec3{ 1.0f, 0.0f, 0.0f };
+		vertices.vertices[6].normal = Vec3{ 1.0f, 0.0f, 0.0f };
+		vertices.vertices[7].normal = Vec3{ 1.0f, 0.0f, 0.0f };
+		// back normals
+		vertices.vertices[8].normal = Vec3{ 0.0f, 0.0f, 1.0f };
+		vertices.vertices[9].normal = Vec3{ 0.0f, 0.0f, 1.0f };
+		vertices.vertices[10].normal = Vec3{ 0.0f, 0.0f, 1.0f };
+		vertices.vertices[11].normal = Vec3{ 0.0f, 0.0f, 1.0f };
+		// left normals
+		vertices.vertices[12].normal = Vec3{ -1.0f, 0.0f, 0.0f };
+		vertices.vertices[13].normal = Vec3{ -1.0f, 0.0f, 0.0f };
+		vertices.vertices[14].normal = Vec3{ -1.0f, 0.0f, 0.0f };
+		vertices.vertices[15].normal = Vec3{ -1.0f, 0.0f, 0.0f };
+		// top normals
+		vertices.vertices[16].normal = Vec3{ 0.0f, 1.0f, 0.0f };
+		vertices.vertices[17].normal = Vec3{ 0.0f, 1.0f, 0.0f };
+		vertices.vertices[18].normal = Vec3{ 0.0f, 1.0f, 0.0f };
+		vertices.vertices[19].normal = Vec3{ 0.0f, 1.0f, 0.0f };
+		// bottom normals
+		vertices.vertices[20].normal = Vec3{ 0.0f, -1.0f, 0.0f };
+		vertices.vertices[21].normal = Vec3{ 0.0f, -1.0f, 0.0f };
+		vertices.vertices[22].normal = Vec3{ 0.0f, -1.0f, 0.0f };
+		vertices.vertices[23].normal = Vec3{ 0.0f, -1.0f, 0.0f };
+		return vertices;
+	}
+
+	template<typename Vertex>
 	static IndexedTriangleList<Vertex> GetSkinnedCube(float size = 1.0f) {
 		float half = size / 2.0f;
 		std::vector<Vertex> verts;
