@@ -159,6 +159,21 @@
     <ClInclude Include="DefaultGeometryShader.h">
       <Filter>Header Files\Effects\GeometryShader</Filter>
     </ClInclude>
+    <ClInclude Include="FlatColorTriangleGeometryShader.h">
+      <Filter>Header Files\Effects\GeometryShader</Filter>
+    </ClInclude>
+    <ClInclude Include="FlatColorTriangleEffect.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalsVertex.h">
+      <Filter>Header Files\Effects\VertexTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="FlatLightingVertexShader.h">
+      <Filter>Header Files\Effects\VertexShaders</Filter>
+    </ClInclude>
+    <ClInclude Include="FlatLightingEffect.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">

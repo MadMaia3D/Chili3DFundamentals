@@ -145,6 +145,10 @@
     <ClInclude Include="ColorVertex.h" />
     <ClInclude Include="DefaultGeometryShader.h" />
     <ClInclude Include="DXErr.h" />
+    <ClInclude Include="FlatColorTriangleEffect.h" />
+    <ClInclude Include="FlatColorTriangleGeometryShader.h" />
+    <ClInclude Include="FlatLightingEffect.h" />
+    <ClInclude Include="FlatLightingVertexShader.h" />
     <ClInclude Include="FlatTextureEffect.h" />
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="Game.h" />
@@ -157,6 +161,7 @@
     <ClInclude Include="Mat2.h" />
     <ClInclude Include="Matrix3.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="NormalsVertex.h" />
     <ClInclude Include="Pipeline.h" />
     <ClInclude Include="PerspectiveScreenTransformer.h" />
     <ClInclude Include="Meshes.h" />
