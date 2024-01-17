@@ -97,6 +97,26 @@ public:
 			z * rhs.x - x * rhs.z,
 			x * rhs.y - y * rhs.x };
 	}
+	Vector3& Hadamard(const Vector3 &other) {
+		x *= other.x;
+		y *= other.y;
+		z *= other.z;
+		return *this;
+	}
+	Vector3 GetHadamard(const Vector3 &other) const {
+		Vector3 output = *this;
+		return output.Hadamard(other);
+	}
+	Vector3& Saturate() {
+		x = std::clamp(x, 0.0f, 1.0f);
+		y = std::clamp(y, 0.0f, 1.0f);
+		z = std::clamp(z, 0.0f, 1.0f);
+		return *this;
+	}
+	Vector3 GetSaturated() const {
+		Vector3 output = *this;
+		return output.Saturate();
+	}
 public:
 	T z;
 };
