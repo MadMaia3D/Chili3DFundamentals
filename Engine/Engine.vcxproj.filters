@@ -189,6 +189,9 @@
     <ClInclude Include="Cube.h">
       <Filter>Header Files\Mesh</Filter>
     </ClInclude>
+    <ClInclude Include="ObjParser.h">
+      <Filter>Header Files\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">

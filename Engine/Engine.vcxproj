@@ -165,6 +165,7 @@
     <ClInclude Include="Matrix3.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="NormalsVertex.h" />
+    <ClInclude Include="ObjParser.h" />
     <ClInclude Include="Pipeline.h" />
     <ClInclude Include="PerspectiveScreenTransformer.h" />
     <ClInclude Include="Meshes.h" />
