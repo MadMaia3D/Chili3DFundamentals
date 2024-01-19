@@ -67,13 +67,19 @@ private:
 		std::istringstream ss(singleVertexIndices);
 		std::string token;
 		if (std::getline(ss, token, '/')) {
-			indices.v = std::stoi(token);
+			if (!token.empty()) {
+				indices.v = std::stoi(token);
+			}
 		}
 		if (std::getline(ss, token, '/')) {
-			indices.vt = std::stoi(token);
+			if (!token.empty()) {
+				indices.vt = std::stoi(token);
+			}
 		}
 		if (std::getline(ss, token, '/')) {
-			indices.vn = std::stoi(token);
+			if (!token.empty()) {
+				indices.vn = std::stoi(token);
+			}
 		}
 		return indices;
 	}
