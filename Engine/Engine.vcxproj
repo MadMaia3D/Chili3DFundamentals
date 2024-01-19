@@ -171,6 +171,7 @@
     <ClInclude Include="Meshes.h" />
     <ClInclude Include="PlainPositionVertex.h" />
     <ClInclude Include="Plane.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="TextureClipped.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Resource.h" />
