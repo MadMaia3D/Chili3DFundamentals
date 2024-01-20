@@ -5,6 +5,10 @@ namespace VertexTypes {
 	class NormalsVertex {
 	public:
 		NormalsVertex() = default;
+		NormalsVertex(const Vec3& position)
+			:
+			pos(position) {
+		}
 		NormalsVertex(const Vec3& position, const Vec3& normal)
 			:
 			pos(position),
