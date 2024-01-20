@@ -85,4 +85,15 @@ public:
 
 		return { std::move(vertices) , std::move(indices) };
 	}
+
+
+
+	template <typename Vertex>
+	static IndexedTriangleList<Vertex> GetSmoothSphere(float radius = 0.5f, int segments = 16, int rings = 8) {
+		IndexedTriangleList<Vertex> indexedTriangles = GetPlainSphere<Vertex>(radius, segments, rings);
+		for (size_t i = 0; i < indexedTriangles.vertices.size(); i++) {
+			indexedTriangles.vertices[i].normal = indexedTriangles.vertices[i].pos.GetNormalized();
+		}
+		return indexedTriangles;
+	}
 };
