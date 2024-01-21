@@ -148,10 +148,10 @@
     <ClInclude Include="DXErr.h" />
     <ClInclude Include="FlatColorTriangleEffect.h" />
     <ClInclude Include="FlatColorTriangleGeometryShader.h" />
-    <ClInclude Include="FlatLightingEffect.h" />
+    <ClInclude Include="GouraudEffect.h" />
     <ClInclude Include="FlatLightingGeometryShader.h" />
-    <ClInclude Include="FlatLightingGeometryShaderEffect.h" />
-    <ClInclude Include="FlatLightingVertexShader.h" />
+    <ClInclude Include="FlatLightingEffect.h" />
+    <ClInclude Include="GouraudVertexShader.h" />
     <ClInclude Include="FlatTextureEffect.h" />
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="Game.h" />

@@ -168,17 +168,8 @@
     <ClInclude Include="NormalsVertex.h">
       <Filter>Header Files\Effects\VertexTypes</Filter>
     </ClInclude>
-    <ClInclude Include="FlatLightingVertexShader.h">
-      <Filter>Header Files\Effects\VertexShaders</Filter>
-    </ClInclude>
-    <ClInclude Include="FlatLightingEffect.h">
-      <Filter>Header Files\Effects</Filter>
-    </ClInclude>
     <ClInclude Include="FlatLightingGeometryShader.h">
       <Filter>Header Files\Effects\GeometryShader</Filter>
-    </ClInclude>
-    <ClInclude Include="FlatLightingGeometryShaderEffect.h">
-      <Filter>Header Files\Effects</Filter>
     </ClInclude>
     <ClInclude Include="WavyFlatLightingEffect.h">
       <Filter>Header Files\Effects</Filter>
@@ -194,6 +185,15 @@
     </ClInclude>
     <ClInclude Include="Sphere.h">
       <Filter>Header Files\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="GouraudVertexShader.h">
+      <Filter>Header Files\Effects\VertexShaders</Filter>
+    </ClInclude>
+    <ClInclude Include="GouraudEffect.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="FlatLightingEffect.h">
+      <Filter>Header Files\Effects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

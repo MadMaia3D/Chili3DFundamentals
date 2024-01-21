@@ -4,7 +4,7 @@
 
 namespace VertexShaders {
 	template <class Vertex>
-	class FlatLightingVertexShader {
+	class GouraudVertexShader {
 	public:
 		typedef VertexTypes::ColorVertex Output;
 	public:

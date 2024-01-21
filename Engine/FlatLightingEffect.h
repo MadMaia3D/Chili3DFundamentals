@@ -1,14 +1,14 @@
 #pragma once
-#include "NormalsVertex.h"
-#include "FlatLightingVertexShader.h"
-#include "DefaultGeometryShader.h"
+#include "PlainPositionVertex.h"
+#include "DefaultVertexShader.h"
+#include "FlatLightingGeometryShader.h"
 #include "PaintByVertexColor.h"
 
 class FlatLightingEffect {
 public:
-	typedef VertexTypes::NormalsVertex Vertex;
-	typedef VertexShaders::FlatLightingVertexShader<Vertex> VertexShader;
-	typedef GeometryShaders::DefaultGeometryShader<VertexShader::Output> GeometryShader;
+	typedef VertexTypes::PlainPositionVertex Vertex;
+	typedef VertexShaders::DefaultVertexShader<Vertex> VertexShader;
+	typedef GeometryShaders::FlatLightingGeometryShader<VertexShader::Output> GeometryShader;
 	typedef PixelShaders::PaintByVertexColor<GeometryShader::Output> PixelShader;
 public:
 	VertexShader vertexShader;
