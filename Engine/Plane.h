@@ -57,4 +57,13 @@ public:
 		}
 		return vertices;
 	}
+
+	template<typename Vertex>
+	static IndexedTriangleList<Vertex> GetNormalsPlane(float size = 1.0f, int divisions = 8) {
+		IndexedTriangleList<Vertex> vertices = GetPlane<Vertex>(size, divisions);
+		for (auto& v : vertices.vertices) {
+			v.normal = {0.0f, 0.0f, -1.0f};
+		}
+		return vertices;
+	}
 };
