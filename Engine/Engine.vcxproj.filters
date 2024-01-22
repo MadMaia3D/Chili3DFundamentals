@@ -43,6 +43,9 @@
     <Filter Include="Header Files\Effects\GeometryShader">
       <UniqueIdentifier>{960e37f0-000b-4ca4-a731-3bdedf1c2559}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Scenes">
+      <UniqueIdentifier>{e07f467e-a2cb-400c-a99c-7cbfcbb4da63}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChiliWin.h">
@@ -200,6 +203,12 @@
     </ClInclude>
     <ClInclude Include="FlatColorEffect.h">
       <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLightScene.h">
+      <Filter>Header Files\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

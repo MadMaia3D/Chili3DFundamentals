@@ -12,7 +12,7 @@ namespace GeometryShaders {
 		void BindColors(std::vector<Vec3> colors) {
 			triangle_colors = std::move(colors);
 		}
-		Triangle<Output> operator()(const Vertex& v0, const Vertex& v1, const Vertex& v2, size_t index) {
+		Triangle<Output> operator()(const Vertex& v0, const Vertex& v1, const Vertex& v2, size_t index) const {
 			index %= triangle_colors.size();
 			return { {v0.pos, triangle_colors[index]}, {v1.pos, triangle_colors[index]}, {v2.pos, triangle_colors[index]} };
 		}

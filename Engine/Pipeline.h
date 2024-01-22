@@ -28,15 +28,15 @@ public:
 		assert(pZBuffer->GetHeight() == gfx.ScreenHeight);
 	}
 
-	void Draw(const IndexedTriangleList<Vertex>& vertices) {
+	void Draw(const IndexedTriangleList<Vertex>& vertices) const {
 		VertexTransform(vertices);
 	}
-	void BeginFrame() {
+	void BeginFrame() const {
 		pZBuffer->Clear();
 	}
 
 private:
-	void VertexTransform(const IndexedTriangleList<Vertex>& IndexedTriangles) {
+	void VertexTransform(const IndexedTriangleList<Vertex>& IndexedTriangles) const {
 		// create a transformed copy of the vertices
 		std::vector<VSOut> worldSpaceVertices;
 
@@ -49,7 +49,7 @@ private:
 		AssembleTriangles(worldSpaceVertices, IndexedTriangles.indices);
 	}
 
-	void AssembleTriangles(const std::vector<VSOut>& vertices, const std::vector<size_t>& indices) {
+	void AssembleTriangles(const std::vector<VSOut>& vertices, const std::vector<size_t>& indices) const {
 		// loop through indices getting 3 at each time and creating copies of the vertices
 		for (size_t i = 0; i < indices.size() / 3; i++) {
 			const VSOut& v0 = vertices[indices[i * 3]];
@@ -62,11 +62,11 @@ private:
 		}
 	}
 
-	void ProcessTriangles(const VSOut& v0, const VSOut& v1, const VSOut& v2, size_t triangle_index) {
+	void ProcessTriangles(const VSOut& v0, const VSOut& v1, const VSOut& v2, size_t triangle_index) const {
 		PerspectiveScreenTransform(effect.geometryShader(v0,v1,v2, triangle_index));
 	}
 
-	void PerspectiveScreenTransform(Triangle<GSOut>& triangle) {
+	void PerspectiveScreenTransform(Triangle<GSOut>& triangle) const {
 		// apply perspective transform to the triangle
 		// apply screen transform to the triangle
 		pst.TransformVertex(triangle.v0);
@@ -75,11 +75,11 @@ private:
 		RasterizeTriangle(triangle);
 	}
 
-	void RasterizeTriangle(const Triangle<GSOut>& triangle) {
+	void RasterizeTriangle(const Triangle<GSOut>& triangle) const {
 		DrawTriangle(triangle);
 	}
 
-	void DrawTriangle(const Triangle<GSOut>& triangle) {
+	void DrawTriangle(const Triangle<GSOut>& triangle) const {
 		const GSOut* pv0 = &triangle.v0;
 		const GSOut* pv1 = &triangle.v1;
 		const GSOut* pv2 = &triangle.v2;
@@ -112,7 +112,7 @@ private:
 	}
 
 	// mind the order of vertices: clockwise from the top
-	void DrawFlatBottomTriangle(const GSOut & v0, const GSOut & v1, const GSOut & v2) {
+	void DrawFlatBottomTriangle(const GSOut & v0, const GSOut & v1, const GSOut & v2) const {
 		// calculate step of left and right edges
 		const float deltaY = (v2.pos.y - v0.pos.y);
 		GSOut leftEdgeStep = (v2 - v0) / deltaY;
@@ -121,7 +121,7 @@ private:
 	}
 
 	// mind the order of vertices: clockwise from the top left
-	void DrawFlatTopTriangle(const GSOut & v0, const GSOut & v1, const GSOut & v2) {
+	void DrawFlatTopTriangle(const GSOut & v0, const GSOut & v1, const GSOut & v2) const {
 		// calculate step of left and right edges
 		const float deltaY = (v2.pos.y - v0.pos.y);
 		GSOut leftEdgeStep = (v2 - v0) / deltaY;
@@ -135,7 +135,7 @@ private:
 						  const GSOut& leftEdgestep,
 						  const GSOut& rightEdgestep,
 						  GSOut leftEdgeStartVertex,
-						  GSOut rightEdgeStartVertex) {
+						  GSOut rightEdgeStartVertex) const {
 		// Microsoft DirectX10 rasterization "top-edge" rule
 		const int yStart = (int)std::ceil(v0.pos.y - 0.5f);
 		const int yEnd = (int)std::ceil(v2.pos.y - 0.5f);

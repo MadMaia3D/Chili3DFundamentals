@@ -20,19 +20,12 @@
 ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
-#include "Meshes.h"
-#include "Sphere.h"
-#include "Plane.h"
 
 Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
 	gfx(wnd),
-	pZBuffer(std::make_shared<ZBuffer>(gfx.ScreenWidth, gfx.ScreenHeight)),
-	pipeline(gfx, pZBuffer),
-	lightPipeline(gfx, pZBuffer),
-	//itList(Meshes::LoadMeshWithNormals<Vertex>("Models\\suzanne_smooth.obj"))
-	itList(Plane::GetNormalsPlane<Vertex>(1.2f, 8))
+	scene(gfx)
 {
 }
 
@@ -45,70 +38,10 @@ void Game::Go() {
 
 void Game::UpdateModel() {
 	const float dt = ft.Mark();
-
-	// model
-	if (wnd.kbd.KeyIsPressed('W')) {
-		thetaX -= dt;
-	}
-	if (wnd.kbd.KeyIsPressed('S')) {
-		thetaX += dt;
-	}
-	if (wnd.kbd.KeyIsPressed('A')) {
-		thetaY -= dt;
-	}
-	if (wnd.kbd.KeyIsPressed('D')) {
-		thetaY += dt;
-	}
-	if (wnd.kbd.KeyIsPressed('Q')) {
-		thetaZ -= dt;
-	}
-	if (wnd.kbd.KeyIsPressed('E')) {
-		thetaZ += dt;
-	}
-	if (wnd.kbd.KeyIsPressed('R')) {
-		offsetZ += 3.0f * dt;
-	}
-	if (wnd.kbd.KeyIsPressed('F')) {
-		offsetZ = std::max(1.3f, offsetZ - 3.0f * dt);
-	}
-	thetaX = wrap_angle(thetaX);
-	thetaY = wrap_angle(thetaY);
-	thetaZ = wrap_angle(thetaZ);
-
-	// lights
-	constexpr float lightSpped = 0.25f;
-	if (wnd.kbd.KeyIsPressed('J')) {
-		lightPosition.x -= dt * lightSpped;
-	}
-	if (wnd.kbd.KeyIsPressed('L')) {
-		lightPosition.x += dt * lightSpped;
-	}
-	if (wnd.kbd.KeyIsPressed('I')) {
-		lightPosition.y += dt * lightSpped;
-	}
-	if (wnd.kbd.KeyIsPressed('K')) {
-		lightPosition.y -= dt * lightSpped;
-	}
-	if (wnd.kbd.KeyIsPressed('U')) {
-		lightPosition.z -= dt * lightSpped;
-	}
-	if (wnd.kbd.KeyIsPressed('O')) {
-		lightPosition.z += dt * lightSpped;
-	}
-
-	const Mat3 rot = Mat3::RotationX(thetaX) * Mat3::RotationY(thetaY) * Mat3::RotationZ(thetaZ);
-	pipeline.effect.vertexShader.BindRotation(rot);
-	pipeline.effect.vertexShader.BindTranslation({ 0.0f, 0.0f, offsetZ });
-	pipeline.effect.vertexShader.SetLightPosition(lightPosition);
+	scene.Update(wnd.kbd, wnd.mouse, dt);
 }
 
 void Game::ComposeFrame() {
 
-	const IndexedTriangleList<LightVertex> lightGeo = Sphere::GetPlainSphere<LightVertex>(0.02f);
-	lightPipeline.effect.vertexShader.BindTranslation(lightPosition);
-
-	pipeline.BeginFrame();
-	pipeline.Draw(itList);
-
-	lightPipeline.Draw(lightGeo);
+	scene.Draw(gfx);
 }

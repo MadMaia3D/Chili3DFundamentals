@@ -13,7 +13,7 @@ namespace VertexShaders {
 		void BindTranslation(const Vec3& translation_in) {
 			translation = translation_in;
 		}
-		Output operator()(const Vertex& input) {
+		Output operator()(const Vertex& input) const {
 			return { input.pos * rotation + translation, input };
 		}
 	private:

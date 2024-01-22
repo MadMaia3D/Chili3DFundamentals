@@ -8,7 +8,7 @@ namespace GeometryShaders {
 	public:
 		typedef VertexTypes::ColorVertex Output;
 	public:
-		Triangle<Output> operator()(const Vertex& v0, const Vertex& v1, const Vertex& v2, size_t index) {
+		Triangle<Output> operator()(const Vertex& v0, const Vertex& v1, const Vertex& v2, size_t index) const {
 			const Vec3 edge0 = v1.pos - v0.pos;
 			const Vec3 edge1 = v2.pos - v0.pos;
 			const Vec3 tNormal = edge0.CrossProduct(edge1).Normalize();

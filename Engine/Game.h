@@ -22,9 +22,7 @@
 
 #include "Graphics.h"
 #include "FrameTimer.h"
-#include "Pipeline.h"
-#include "GouraudPointLightEffect.h"
-#include "FlatColorEffect.h"
+#include "PointLightScene.h"
 
 class Game
 {
@@ -45,23 +43,6 @@ private:
 	/********************************/
 	/*  User Variables              */
 	FrameTimer ft;
-
-	float thetaX = 0.0f;
-	float thetaY = 0.0f;
-	float thetaZ = 0.0f;
-	float offsetZ = 2.0f;
-	Vec3 lightPosition = {0.0f, 0.0f, 1.0f};
-
-	std::shared_ptr<ZBuffer> pZBuffer;
-
-	typedef Pipeline<GouraudPointLightEffect> MeshPipeline;
-	typedef MeshPipeline::Vertex Vertex;
-	MeshPipeline pipeline;
-
-	typedef Pipeline<FlatColorEffect> LightPipeline;
-	typedef LightPipeline::Vertex LightVertex;
-	LightPipeline lightPipeline;
-
-	IndexedTriangleList<Vertex> itList;
+	PointLightScene scene;
 	/********************************/
 };

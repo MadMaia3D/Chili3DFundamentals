@@ -13,7 +13,7 @@ namespace VertexShaders {
 		void BindTranslation(const Vec3& translation_in) {
 			translation = translation_in;
 		}
-		Output operator()(const Vertex& input) {
+		Output operator()(const Vertex& input) const {
 			Vec3 pos = input.pos;
 			pos.z += waveAmplitude * sin((pos.x + pos.y) * waveFrequency + offset * waveSpeed);
 			return { pos * rotation + translation, input };
