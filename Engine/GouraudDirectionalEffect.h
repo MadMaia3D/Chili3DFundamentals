@@ -4,7 +4,7 @@
 #include "DefaultGeometryShader.h"
 #include "PaintByVertexColor.h"
 
-class GouraudEffect {
+class GouraudDirectionalEffect {
 public:
 	typedef VertexTypes::NormalsVertex Vertex;
 	typedef VertexShaders::GouraudVertexShader<Vertex> VertexShader;

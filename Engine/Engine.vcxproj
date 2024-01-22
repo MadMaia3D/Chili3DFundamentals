@@ -148,7 +148,7 @@
     <ClInclude Include="DXErr.h" />
     <ClInclude Include="FlatColorTriangleEffect.h" />
     <ClInclude Include="FlatColorTriangleGeometryShader.h" />
-    <ClInclude Include="GouraudEffect.h" />
+    <ClInclude Include="GouraudDirectionalEffect.h" />
     <ClInclude Include="FlatLightingGeometryShader.h" />
     <ClInclude Include="FlatLightingEffect.h" />
     <ClInclude Include="GouraudVertexShader.h" />

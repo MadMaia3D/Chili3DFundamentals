@@ -189,10 +189,10 @@
     <ClInclude Include="GouraudVertexShader.h">
       <Filter>Header Files\Effects\VertexShaders</Filter>
     </ClInclude>
-    <ClInclude Include="GouraudEffect.h">
+    <ClInclude Include="FlatLightingEffect.h">
       <Filter>Header Files\Effects</Filter>
     </ClInclude>
-    <ClInclude Include="FlatLightingEffect.h">
+    <ClInclude Include="GouraudDirectionalEffect.h">
       <Filter>Header Files\Effects</Filter>
     </ClInclude>
   </ItemGroup>
