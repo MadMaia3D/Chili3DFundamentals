@@ -22,7 +22,7 @@
 
 #include "Graphics.h"
 #include "FrameTimer.h"
-#include "PointLightScene.h"
+#include "GouraudPointLightScene.h"
 
 class Game
 {
@@ -43,6 +43,6 @@ private:
 	/********************************/
 	/*  User Variables              */
 	FrameTimer ft;
-	PointLightScene scene;
+	GouraudPointLightScene scene;
 	/********************************/
 };

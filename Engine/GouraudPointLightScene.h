@@ -4,18 +4,19 @@
 #include "Pipeline.h"
 #include "GouraudPointLightEffect.h"
 #include "FlatColorEffect.h"
-#include "Plane.h"
 #include "Sphere.h"
+#include "Meshes.h"
 
-class PointLightScene : public Scene {
+class GouraudPointLightScene : public Scene {
 public:
-	PointLightScene(Graphics& gfx)
+	GouraudPointLightScene(Graphics& gfx)
 		:
 		pZBuffer(std::make_shared<ZBuffer>(gfx.ScreenWidth, gfx.ScreenHeight)),
 		pipeline(gfx, pZBuffer),
 		lightPipeline(gfx, pZBuffer),
-		itList(Plane::GetNormalsPlane<Vertex>(1.2f, 8))
-	{}
+		itList(Meshes::LoadMeshWithNormals<Vertex>("Models\\teapot_smooth.obj"))
+	{
+	}
 
 	void Update(Keyboard& kbd, Mouse& mouse, float deltaTime) override {
 		// rotation xy
@@ -92,7 +93,7 @@ private:
 	float thetaY = 0.0f;
 	float thetaZ = 0.0f;
 	float offsetZ = 2.0f;
-	Vec3 lightPosition = { 0.0f, 0.0f, 1.0f };
+	Vec3 lightPosition = { 0.0f, 0.0f, 0.5f };
 
 	std::shared_ptr<ZBuffer> pZBuffer;
 
