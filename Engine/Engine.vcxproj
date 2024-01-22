@@ -146,11 +146,13 @@
     <ClInclude Include="Cube.h" />
     <ClInclude Include="DefaultGeometryShader.h" />
     <ClInclude Include="DXErr.h" />
+    <ClInclude Include="FlatColorEffect.h" />
     <ClInclude Include="FlatColorTriangleEffect.h" />
     <ClInclude Include="FlatColorTriangleGeometryShader.h" />
     <ClInclude Include="GouraudDirectionalEffect.h" />
     <ClInclude Include="FlatLightingGeometryShader.h" />
     <ClInclude Include="FlatLightingEffect.h" />
+    <ClInclude Include="GouraudPointLightEffect.h" />
     <ClInclude Include="GouraudVertexShader.h" />
     <ClInclude Include="FlatTextureEffect.h" />
     <ClInclude Include="FrameTimer.h" />

@@ -17,16 +17,22 @@ public:
 public:
 	Pipeline(Graphics& gfx)
 		:
+		Pipeline(gfx, std::make_shared<ZBuffer>(gfx.ScreenWidth, gfx.ScreenHeight))
+	{}
+	Pipeline(Graphics& gfx, std::shared_ptr<ZBuffer> buffer)
+		:
 		gfx(gfx),
-		buffer(gfx.ScreenWidth, gfx.ScreenHeight)
+		pZBuffer(std::move(buffer))
 	{
+		assert(pZBuffer->GetWidth() == gfx.ScreenWidth);
+		assert(pZBuffer->GetHeight() == gfx.ScreenHeight);
 	}
 
 	void Draw(const IndexedTriangleList<Vertex>& vertices) {
 		VertexTransform(vertices);
 	}
 	void BeginFrame() {
-		buffer.Clear();
+		pZBuffer->Clear();
 	}
 
 private:
@@ -152,7 +158,7 @@ private:
 
 			for (int x = xStart; x < xEnd; x++, scanPos += scanPosDelta) {
 				const float uninvertedZ = 1.0f / scanPos.pos.z;
-				if (buffer.TestAndSet(x,y, uninvertedZ)) {
+				if (pZBuffer->TestAndSet(x,y, uninvertedZ)) {
 					GSOut attributes = scanPos * uninvertedZ;
 					attributes.pos.z = uninvertedZ;
 					gfx.PutPixel(x, y, effect.pixelShader(attributes));
@@ -164,6 +170,7 @@ public:
 	Effect effect;
 private:
 	Graphics& gfx;
-	ZBuffer buffer;
+	//ZBuffer buffer;
+	std::shared_ptr<ZBuffer> pZBuffer;
 	PerspectiveScreenTransformer pst;
 };

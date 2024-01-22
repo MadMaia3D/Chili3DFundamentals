@@ -21,6 +21,12 @@ public:
 	void SetDepth(int x_position, int y_position, float depth) {
 		buffer[y_position * width + x_position] = depth;
 	}
+	int GetWidth() const {
+		return width;
+	}
+	int GetHeight() const {
+		return height;
+	}
 	bool TestAndSet(int x_position, int y_position, float depth) {
 		if (depth < GetDepth(x_position, y_position)) {
 			SetDepth(x_position, y_position, depth);

@@ -28,7 +28,7 @@ namespace VertexShaders {
 			light_direction = direction;
 		}
 		void SetDiffuseLightColor(const Vec3& color) {
-			light_diffuse_color = light;
+			light_diffuse_color = color;
 		}
 		void SetAmbientLightColor(const Vec3& color) {
 			light_ambient_color = color;

@@ -20,18 +20,20 @@
 ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
-#include "Matrix3.h"
-#include "ChiliMath.h"
+#include "Meshes.h"
+#include "Sphere.h"
 #include "Plane.h"
 
 Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
 	gfx(wnd),
-	pipeline(gfx),
-	itList(Plane::GetPlane<Vertex>(1.0f, 16))
+	pZBuffer(std::make_shared<ZBuffer>(gfx.ScreenWidth, gfx.ScreenHeight)),
+	pipeline(gfx, pZBuffer),
+	lightPipeline(gfx, pZBuffer),
+	//itList(Meshes::LoadMeshWithNormals<Vertex>("Models\\suzanne_smooth.obj"))
+	itList(Plane::GetNormalsPlane<Vertex>(1.2f, 8))
 {
-	pipeline.effect.vertexShader.SetWaveSpeed(2.0f);
 }
 
 void Game::Go() {
@@ -43,6 +45,8 @@ void Game::Go() {
 
 void Game::UpdateModel() {
 	const float dt = ft.Mark();
+
+	// model
 	if (wnd.kbd.KeyIsPressed('W')) {
 		thetaX -= dt;
 	}
@@ -62,38 +66,49 @@ void Game::UpdateModel() {
 		thetaZ += dt;
 	}
 	if (wnd.kbd.KeyIsPressed('R')) {
-		offsetZ += 3 * dt;
+		offsetZ += 3.0f * dt;
 	}
 	if (wnd.kbd.KeyIsPressed('F')) {
-		offsetZ = std::max(1.3f, offsetZ - 3 * dt);
-	}
-	// lights
-	if (wnd.kbd.KeyIsPressed('J')) {
-		lightRotationY += dt * 3.0f;
-	}
-	if (wnd.kbd.KeyIsPressed('L')) {
-		lightRotationY -= dt * 3.0f;
-	}
-	if (wnd.kbd.KeyIsPressed('I')) {
-		lightRotationX += dt * 3.0f;
-	}
-	if (wnd.kbd.KeyIsPressed('K')) {
-		lightRotationX -= dt * 3.0f;
+		offsetZ = std::max(1.3f, offsetZ - 3.0f * dt);
 	}
 	thetaX = wrap_angle(thetaX);
 	thetaY = wrap_angle(thetaY);
 	thetaZ = wrap_angle(thetaZ);
-	lightRotationY = wrap_angle(lightRotationY);
+
+	// lights
+	constexpr float lightSpped = 0.25f;
+	if (wnd.kbd.KeyIsPressed('J')) {
+		lightPosition.x -= dt * lightSpped;
+	}
+	if (wnd.kbd.KeyIsPressed('L')) {
+		lightPosition.x += dt * lightSpped;
+	}
+	if (wnd.kbd.KeyIsPressed('I')) {
+		lightPosition.y += dt * lightSpped;
+	}
+	if (wnd.kbd.KeyIsPressed('K')) {
+		lightPosition.y -= dt * lightSpped;
+	}
+	if (wnd.kbd.KeyIsPressed('U')) {
+		lightPosition.z -= dt * lightSpped;
+	}
+	if (wnd.kbd.KeyIsPressed('O')) {
+		lightPosition.z += dt * lightSpped;
+	}
 
 	const Mat3 rot = Mat3::RotationX(thetaX) * Mat3::RotationY(thetaY) * Mat3::RotationZ(thetaZ);
 	pipeline.effect.vertexShader.BindRotation(rot);
 	pipeline.effect.vertexShader.BindTranslation({ 0.0f, 0.0f, offsetZ });
-	const Vec3 lightDirection = Vec3(0.0f,0.0f,1.0f) * Mat3::RotationX(lightRotationX) * Mat3::RotationY(lightRotationY);
-	pipeline.effect.geometryShader.SetLightDirection(lightDirection);
-	pipeline.effect.vertexShader.OffsetWave(dt);
+	pipeline.effect.vertexShader.SetLightPosition(lightPosition);
 }
 
 void Game::ComposeFrame() {
+
+	const IndexedTriangleList<LightVertex> lightGeo = Sphere::GetPlainSphere<LightVertex>(0.02f);
+	lightPipeline.effect.vertexShader.BindTranslation(lightPosition);
+
 	pipeline.BeginFrame();
 	pipeline.Draw(itList);
+
+	lightPipeline.Draw(lightGeo);
 }
