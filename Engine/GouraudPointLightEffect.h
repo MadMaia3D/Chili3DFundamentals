@@ -24,15 +24,21 @@ public:
 		}
 
 		Output operator()(const Vertex& input) const {
-			// light calculations
+			// transform each vertex before light calc
 			const Vec3 position = input.pos * rotation + translation;
-			const Vec3 vertex_to_light = (position - light_position).GetNormalized();
-			const float distance_sqr = (position - light_position).LenSquared();
+			// vertex to light data
+			const Vec3 v_to_l = light_position - position;
+			const float dist = v_to_l.Lenght();
+			const Vec3 dir = v_to_l / dist;
+			// calculate attenuation
+			const float attenuation = 1.0f /
+				(quadratic_attenuation * sq(dist) + linear_attenuation * dist + constant_attenuation);
+			// calculate intensity based on angle of incidence and attenuation
+			const float angle_incidence = std::max(0.0f, (dir * (input.normal * rotation)));
+			const float lightInfluence = light_intensity * angle_incidence * attenuation;
 
-			const Vec3 rotatedVertexNormal = input.normal * rotation;
-			const float lightDirectionalInfluence = std::max(0.0f, -(vertex_to_light * rotatedVertexNormal));
-			const float lightInfluence = lightDirectionalInfluence * light_intensity / (distance_sqr + 1);
-			const Vec3 lightColorInfluence = (light_diffuse_color * lightInfluence + light_ambient_color);
+			const Vec3 lightColorInfluence = (diffuse * lightInfluence + ambient);
+
 			const Vec3 outputColor = object_color.GetHadamard(lightColorInfluence).Saturate() * 255.0f;
 			return { position, outputColor };
 		}
@@ -41,13 +47,13 @@ public:
 			light_position = position;
 		}
 		void SetDiffuseLightColor(const Vec3& color) {
-			light_diffuse_color = color;
+			diffuse = color;
 		}
 		void SetLightIntensity(float value) {
 			light_intensity = value;
 		}
 		void SetAmbientLightColor(const Vec3& color) {
-			light_ambient_color = color;
+			ambient = color;
 		}
 		void SetObjectColor(const Vec3& color) {
 			object_color = color;
@@ -57,9 +63,13 @@ public:
 		Mat3 rotation;
 		Vec3 light_position = Vec3{ 0.0f, 0.0f, 2.0f };
 		float light_intensity = 2.0f;
-		Vec3 light_diffuse_color = { 0.8f, 0.7f, 0.5f };
-		Vec3 light_ambient_color = { 0.1f, 0.1f, 0.2f };
+		Vec3 diffuse = { 0.8f, 0.7f, 0.5f };
+		Vec3 ambient = { 0.1f, 0.1f, 0.2f };
 		Vec3 object_color = { 0.8f, 0.8f, 0.8f };
+
+		const float quadratic_attenuation = 2.6f;
+		const float linear_attenuation = 1.0f;
+		const float constant_attenuation = 0.4f;
 	};
 
 	// ----------------------------------------------------------------

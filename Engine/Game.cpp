@@ -20,13 +20,17 @@
 ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
+#include "GouraudPointLightScene.h"
+#include "PerPixelPointLightEffectScene.h"
 
 Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
-	gfx(wnd),
-	scene(gfx)
+	gfx(wnd)
 {
+	scenes.push_back(std::make_unique<GouraudPointLightScene>(gfx));
+	scenes.push_back(std::make_unique<PerPixelPointLightEffectScene>(gfx));
+	currentScene = scenes.begin();
 }
 
 void Game::Go() {
@@ -38,10 +42,25 @@ void Game::Go() {
 
 void Game::UpdateModel() {
 	const float dt = ft.Mark();
-	scene.Update(wnd.kbd, wnd.mouse, dt);
+
+	while (!wnd.kbd.KeyIsEmpty()) {
+		Keyboard::Event e = wnd.kbd.ReadKey();
+
+		if (e.GetCode() == VK_TAB && e.IsPress()) {
+			CycleScene();
+		}
+	}
+
+	(*currentScene)->Update(wnd.kbd, wnd.mouse, dt);
+}
+
+void Game::CycleScene() {
+	if (++currentScene == scenes.end()) {
+		currentScene = scenes.begin();
+	}
 }
 
 void Game::ComposeFrame() {
 
-	scene.Draw(gfx);
+	(*currentScene)->Draw(gfx);
 }

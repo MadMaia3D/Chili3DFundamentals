@@ -2,20 +2,19 @@
 #include <algorithm>
 #include "Scene.h"
 #include "Pipeline.h"
-#include "GouraudPointLightEffect.h"
+#include "PerPixelLightingEffect.h"
 #include "FlatColorEffect.h"
 #include "Sphere.h"
 #include "Meshes.h"
 
-class GouraudPointLightScene : public Scene {
+class PerPixelPointLightEffectScene : public Scene {
 public:
-	GouraudPointLightScene(Graphics& gfx)
+	PerPixelPointLightEffectScene(Graphics& gfx)
 		:
 		pZBuffer(std::make_shared<ZBuffer>(gfx.ScreenWidth, gfx.ScreenHeight)),
 		pipeline(gfx, pZBuffer),
 		lightPipeline(gfx, pZBuffer),
-		itList(Meshes::LoadMeshWithNormals<Vertex>("Models\\teapot_smooth.obj"))
-	{
+		itList(Meshes::LoadMeshWithNormals<Vertex>("Models\\teapot_smooth.obj")) {
 	}
 
 	void Update(Keyboard& kbd, Mouse& mouse, float deltaTime) override {
@@ -76,7 +75,7 @@ public:
 		pipeline.effect.vertexShader.BindRotation(rot);
 		pipeline.effect.vertexShader.BindTranslation({ 0.0f, 0.0f, offsetZ });
 
-		pipeline.effect.vertexShader.SetLightPosition(lightPosition);
+		pipeline.effect.pixelShader.SetLightPosition(lightPosition);
 
 		lightPipeline.effect.vertexShader.BindTranslation(lightPosition);
 	}
@@ -98,7 +97,7 @@ private:
 
 	std::shared_ptr<ZBuffer> pZBuffer;
 
-	typedef Pipeline<GouraudPointLightEffect> MeshPipeline;
+	typedef Pipeline<PerPixelLightingEffect> MeshPipeline;
 	typedef MeshPipeline::Vertex Vertex;
 	MeshPipeline pipeline;
 

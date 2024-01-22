@@ -22,7 +22,9 @@
 
 #include "Graphics.h"
 #include "FrameTimer.h"
-#include "GouraudPointLightScene.h"
+#include <vector>
+#include <memory>
+#include "Scene.h"
 
 class Game
 {
@@ -36,6 +38,7 @@ private:
 	void UpdateModel();
 	/********************************/
 	/*  User Functions              */
+	void CycleScene();
 	/********************************/
 private:
 	MainWindow& wnd;
@@ -43,6 +46,7 @@ private:
 	/********************************/
 	/*  User Variables              */
 	FrameTimer ft;
-	GouraudPointLightScene scene;
+	std::vector<std::unique_ptr<Scene>> scenes;
+	std::vector<std::unique_ptr<Scene>>::iterator currentScene;
 	/********************************/
 };
