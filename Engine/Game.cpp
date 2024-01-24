@@ -22,14 +22,16 @@
 #include "Game.h"
 #include "GouraudPointLightScene.h"
 #include "PerPixelPointLightEffectScene.h"
+#include "SpecularHighlightScene.h"
 
 Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
 	gfx(wnd)
 {
-	scenes.push_back(std::make_unique<GouraudPointLightScene>(gfx));
+	scenes.push_back(std::make_unique<SpecularHighlightScene>(gfx));
 	scenes.push_back(std::make_unique<PerPixelPointLightEffectScene>(gfx));
+	scenes.push_back(std::make_unique<GouraudPointLightScene>(gfx));
 	currentScene = scenes.begin();
 }
 

@@ -139,8 +139,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="GouraudPointLightScene.h" />
+    <ClInclude Include="SpecularHighlightScene.h" />
     <ClInclude Include="PerPixelLightingEffect.h" />
     <ClInclude Include="PerPixelPointLightEffectScene.h" />
+    <ClInclude Include="SpecularHighlightEffect.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ChiliException.h" />
     <ClInclude Include="ChiliMath.h" />
