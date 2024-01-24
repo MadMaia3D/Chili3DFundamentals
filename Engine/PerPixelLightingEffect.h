@@ -143,32 +143,3 @@ public:
 	GeometryShader geometryShader;
 	PixelShader pixelShader;
 };
-
-//class VertexShader {
-//public:
-//	typedef VertexTypes::ColorVertex Output;
-//public:
-//	void BindRotation(const Mat3& rotation_in) {
-//		rotation = rotation_in;
-//	}
-//	void BindTranslation(const Vec3& translation_in) {
-//		translation = translation_in;
-//	}
-//
-//	Output operator()(const Vertex& input) const {
-//		// light calculations
-//		const Vec3 position = input.pos * rotation + translation;
-//		const Vec3 vertex_to_light = (position - light_position).GetNormalized();
-//		const float distance_sqr = (position - light_position).LenSquared();
-//
-//		const Vec3 rotatedVertexNormal = input.normal * rotation;
-//		const float lightDirectionalInfluence = std::max(0.0f, -(vertex_to_light * rotatedVertexNormal));
-//		const float lightInfluence = lightDirectionalInfluence * light_intensity / (distance_sqr + 1);
-//		const Vec3 lightColorInfluence = (light_diffuse_color * lightInfluence + light_ambient_color);
-//		const Vec3 outputColor = object_color.GetHadamard(lightColorInfluence).Saturate() * 255.0f;
-//		return { position, outputColor };
-//	}
-//
-
-
-//};
