@@ -219,6 +219,9 @@
     <ClInclude Include="Vector2.h">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Vector4.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">

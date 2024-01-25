@@ -188,6 +188,7 @@
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="PaintByVertexColor.h" />
+    <ClInclude Include="Vector4.h" />
     <ClInclude Include="VertexColorEffect.h" />
     <ClInclude Include="TexturedVertex.h" />
     <ClInclude Include="WavyFlatLightingEffect.h" />
