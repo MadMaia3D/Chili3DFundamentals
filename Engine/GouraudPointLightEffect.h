@@ -1,7 +1,7 @@
 #pragma once
 #include "NormalsVertex.h"
 #include "ColorVertex.h"
-#include "Matrix3.h"
+#include "Matrix.h"
 #include "DefaultGeometryShader.h"
 #include "PaintByVertexColor.h"
 #include <algorithm>

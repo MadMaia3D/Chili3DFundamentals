@@ -2,7 +2,6 @@
 #include "NormalsVertex.h"
 #include "DefaultGeometryShader.h"
 #include "Colors.h"
-#include "Matrix3.h"
 #include <algorithm>
 
 class SpecularHighlightEffect {

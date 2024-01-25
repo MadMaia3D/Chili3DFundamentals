@@ -1,7 +1,6 @@
 #pragma once
 #include "NormalsVertex.h"
 #include "DefaultGeometryShader.h"
-#include "Matrix3.h"
 #include <algorithm>
 
 class PerPixelLightingEffect {

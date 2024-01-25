@@ -1,5 +1,5 @@
 #pragma once
-#include "Matrix3.h"
+#include "Matrix.h"
 
 namespace VertexShaders {
 	template <class Vertex>

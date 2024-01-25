@@ -139,6 +139,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="GouraudPointLightScene.h" />
+    <ClInclude Include="Matrix.h" />
     <ClInclude Include="SpecularHighlightScene.h" />
     <ClInclude Include="PerPixelLightingEffect.h" />
     <ClInclude Include="PerPixelPointLightEffectScene.h" />
