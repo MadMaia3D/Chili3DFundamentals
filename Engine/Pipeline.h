@@ -2,7 +2,6 @@
 #include "IndexedTriangleList.h"
 #include "Triangle.h"
 #include "PerspectiveScreenTransformer.h"
-#include "Matrix3.h"
 #include "ChiliMath.h"
 #include "ZBuffer.h"
 #include <algorithm>

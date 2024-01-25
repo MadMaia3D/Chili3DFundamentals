@@ -170,8 +170,6 @@
     <ClInclude Include="IndexedTriangleList.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="MainWindow.h" />
-    <ClInclude Include="Mat2.h" />
-    <ClInclude Include="Matrix3.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="NormalsVertex.h" />
     <ClInclude Include="ObjParser.h" />
