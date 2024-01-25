@@ -1,22 +1,16 @@
 #pragma once
 #include "Vector2.h"
 template <typename T>
-class Vector3 : public Vector2<T>
-{
+class Vector3 : public Vector2<T> {
 public:
 	Vector3() {}
 	Vector3(T x, T y, T z)
 		:
 		Vector2(x, y),
-		z(z)
-	{}
-	Vector3(const Vector3& vec)
-		:
-		Vector3(vec.x, vec.y, vec.z)
-	{}
+		z(z) {
+	}
 	template <typename T2>
-	explicit operator Vector3<T2>() const
-	{
+	explicit operator Vector3<T2>() const {
 		return { (T2)x,(T2)y, (T2)z };
 	}
 	T LenSquared() const {
@@ -40,31 +34,25 @@ public:
 	Vector3	operator-() const {
 		return Vector3(-x, -y, -z);
 	}
-	Vector3& operator=(const Vector3 &rhs)	{
-		x = rhs.x;
-		y = rhs.y;
-		z = rhs.z;
-		return *this;
-	}
-	Vector3& operator+=(const Vector3 &rhs)	{
+	Vector3& operator+=(const Vector3 &rhs) {
 		x += rhs.x;
 		y += rhs.y;
 		z += rhs.z;
 		return *this;
 	}
-	Vector3& operator-=(const Vector3 &rhs)	{
+	Vector3& operator-=(const Vector3 &rhs) {
 		x -= rhs.x;
 		y -= rhs.y;
 		z -= rhs.z;
 		return *this;
 	}
-	T operator*(const Vector3 &rhs) const	{
+	T operator*(const Vector3 &rhs) const {
 		return x * rhs.x + y * rhs.y + z * rhs.z;
 	}
-	Vector3	operator+(const Vector3 &rhs) const	{
+	Vector3	operator+(const Vector3 &rhs) const {
 		return Vector3(*this) += rhs;
 	}
-	Vector3	operator-(const Vector3 &rhs) const	{
+	Vector3	operator-(const Vector3 &rhs) const {
 		return Vector3(*this) -= rhs;
 	}
 	Vector3& operator*=(const T &rhs) {
