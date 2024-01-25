@@ -66,24 +66,20 @@ public:
 			Output operator/(float rhs) const {
 				return Output(*this) /= rhs;
 			}
-			Vec3 pos{};
-			Vec3 normal{};
+			Vec4 pos{};
+			Vec4 normal{};
 			Vec3 worldPos{};
 		};
 	public:
-		void BindRotation(const Mat3& rotation_in) {
-			rotation = rotation_in;
-		}
-		void BindTranslation(const Vec3& translation_in) {
-			translation = translation_in;
+		void BindTransformation(const Mat4& transformation_in) {
+			transformation = transformation_in;
 		}
 		Output operator()(const Vertex& input) const {
-			const Vec3 worldPosition = input.pos * rotation + translation;
-			return { worldPosition, input.normal * rotation, worldPosition };
+			const Vec4 pos = Vec4(input.pos) * transformation;
+			return { pos, Vec4(input.normal,0.0f) * transformation, pos };
 		}
 	private:
-		Vec3 translation = { 0.0f,0.0f,2.0f };
-		Mat3 rotation = Mat3::Identity();
+		Mat4 transformation = Mat4::Identity();
 	};
 	// --------------------------- GEOMETRY SHADER -------------------------------------
 

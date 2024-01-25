@@ -18,6 +18,7 @@ public:
 	}
 
 	void Update(Keyboard& kbd, Mouse& mouse, float deltaTime) override {
+
 		// rotation xy
 		if (kbd.KeyIsPressed('W')) {
 			thetaX -= deltaTime;
@@ -71,9 +72,12 @@ public:
 			lightPosition.z += deltaTime * lightSpped;
 		}
 
-		const Mat3 rot = Mat3::RotationX(thetaX) * Mat3::RotationY(thetaY) * Mat3::RotationZ(thetaZ);
-		pipeline.effect.vertexShader.BindRotation(rot);
-		pipeline.effect.vertexShader.BindTranslation({ 0.0f, 0.0f, offsetZ });
+		pipeline.effect.vertexShader.BindTransformation(
+			Mat4::RotationX(thetaX) *
+			Mat4::RotationY(thetaY) *
+			Mat4::RotationZ(thetaZ) *
+			Mat4::Translation(0.0f, 0.0f, offsetZ)
+		);
 
 		pipeline.effect.pixelShader.SetLightPosition(lightPosition);
 
