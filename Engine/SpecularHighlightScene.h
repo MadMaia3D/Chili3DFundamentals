@@ -80,7 +80,7 @@ public:
 		lightPipeline.effect.vertexShader.BindTranslation(lightPosition);
 	}
 
-	void Draw(Graphics& gfx) const override {
+	void Draw() const override {
 		const IndexedTriangleList<LightVertex> lightGeo = Sphere::GetPlainSphere<LightVertex>(0.02f);
 
 		pipeline.BeginFrame();

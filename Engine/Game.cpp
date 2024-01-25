@@ -64,5 +64,5 @@ void Game::CycleScene() {
 
 void Game::ComposeFrame() {
 
-	(*currentScene)->Draw(gfx);
+	(*currentScene)->Draw();
 }
