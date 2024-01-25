@@ -185,7 +185,7 @@
     <ClInclude Include="Surface.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="TexVertex.h" />
-    <ClInclude Include="Vec2.h" />
+    <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="PaintByVertexColor.h" />
     <ClInclude Include="VertexColorEffect.h" />

@@ -20,7 +20,7 @@
 ******************************************************************************************/
 #pragma once
 
-#include "Vec2.h"
+#include "Vector2.h"
 #include <algorithm>
 
 template < typename T >
@@ -42,14 +42,14 @@ public:
 	left( rect.left ),
 	right( rect.right )
 	{}
-	inline	_Rect( _Vec2<T> p0,_Vec2<T> p1 )
+	inline	_Rect( Vector2<T> p0,Vector2<T> p1 )
 		:
 		_Rect( min( p0.y,p1.y ),
 			max( p0.y,p1.y ),
 			min( p0.x,p1.x ),
 			max( p0.x,p1.x ) )
 	{}
-	inline	void Translate( _Vec2<T> d )
+	inline	void Translate( Vector2<T> d )
 	{
 		Translate( d.x,d.y );
 	}
@@ -86,7 +86,7 @@ public:
 			left < rect.right && right > rect.left;
 	}
 	template <typename T2>
-	inline	bool Contains( _Vec2<T2> p ) const
+	inline	bool Contains( Vector2<T2> p ) const
 	{
 		return p.y >= top && p.y <= bottom && p.x >= left && p.x <= right;
 	}

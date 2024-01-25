@@ -25,7 +25,7 @@
 #include "ChiliException.h"
 #include "Surface.h"
 #include "Colors.h"
-#include "Vec2.h"
+#include "Vector2.h"
 #include "Vector3.h"
 #include "TexVertex.h"
 

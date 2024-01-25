@@ -111,9 +111,6 @@
     <ClInclude Include="Vector3.h">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Vec2.h">
-      <Filter>Header Files\Math</Filter>
-    </ClInclude>
     <ClInclude Include="ChiliMath.h">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
@@ -217,6 +214,9 @@
       <Filter>Header Files\Effects</Filter>
     </ClInclude>
     <ClInclude Include="Matrix.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
   </ItemGroup>

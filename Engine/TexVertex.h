@@ -1,5 +1,5 @@
 #pragma once
-#include "Vec2.h"
+#include "Vector2.h"
 #include "Vector3.h"
 
 class TexVertex {

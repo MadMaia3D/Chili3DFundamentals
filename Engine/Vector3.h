@@ -1,13 +1,13 @@
 #pragma once
-#include "Vec2.h"
+#include "Vector2.h"
 template <typename T>
-class Vector3 : public _Vec2<T>
+class Vector3 : public Vector2<T>
 {
 public:
 	Vector3() {}
 	Vector3(T x, T y, T z)
 		:
-		_Vec2(x, y),
+		Vector2(x, y),
 		z(z)
 	{}
 	Vector3(const Vector3& vec)
