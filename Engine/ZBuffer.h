@@ -28,6 +28,10 @@ public:
 		return height;
 	}
 	bool TestAndSet(int x_position, int y_position, float depth) {
+		assert(x_position >= 0);
+		assert(x_position < width);
+		assert(y_position >= 0);
+		assert(y_position < height);
 		if (depth < GetDepth(x_position, y_position)) {
 			SetDepth(x_position, y_position, depth);
 			return true;
